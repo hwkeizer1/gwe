@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane fx:id="rootWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.gwe.controllers.RootController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Meterstanden">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#showMeterFormDialog" text="Invullen" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#showExportPeriodDialog" text="Periode exporteren" />
+                  <MenuItem mnemonicParsing="false" onAction="#showCreateBackupDialog" text="Backup maken" />
+                  <MenuItem mnemonicParsing="false" onAction="#showRestoreBackupDialog" text="Backup terugzetten" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#closeProgram" text="Alles afsluiten" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Overzichten">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#showGraphicalView" text="Grafieken" />
+                  <MenuItem mnemonicParsing="false" onAction="#showDataView" text="Tabellen" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+</BorderPane>

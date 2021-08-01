@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="461.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.gwe.controllers.MeterFormDialogController">
+   <children>
+      <HBox alignment="CENTER_RIGHT" layoutX="-20.0" layoutY="19.0" prefHeight="40.0" AnchorPane.leftAnchor="-20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="19.0">
+         <children>
+            <GridPane minHeight="-Infinity" prefHeight="300.0" prefWidth="600.0" HBox.hgrow="ALWAYS">
+              <columnConstraints>
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="324.0" minWidth="10.0" prefWidth="36.0" />
+                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="421.0" minWidth="10.0" prefWidth="233.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.0" minWidth="10.0" prefWidth="25.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="308.0" minWidth="10.0" prefWidth="308.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="50.0" right="50.0" top="30.0" />
+               </HBox.margin>
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="227.0" text="Electra laag afgenomen:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="227.0" text="Electra laag geleverd:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="227.0" text="Electra hoog afgenomen:" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="227.0" text="Electra hoog geleverd:" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="227.0" text="Gas:" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="227.0" text="Water:" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="227.0" text="Opneem datum:" GridPane.columnIndex="1" />
+                  <DatePicker fx:id="dateField" prefHeight="24.0" prefWidth="282.0" GridPane.columnIndex="3" />
+                  <TextField fx:id="lowElectricityPurchasedField" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <TextField fx:id="lowElectricityDeliveredField" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <TextField fx:id="highElectricityPurchasedField" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                  <TextField fx:id="highElectricityDeliveredField" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                  <TextField fx:id="gasPurchasedField" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                  <TextField fx:id="waterPurchasedField" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+               </children>
+            </GridPane>
+         </children>
+      </HBox>
+      <ButtonBar layoutX="329.0" layoutY="379.0" prefHeight="40.0" prefWidth="200.0">
+        <buttons>
+          <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonAction" text="Annuleren" />
+            <Button fx:id="okButton" layoutX="125.0" layoutY="18.0" mnemonicParsing="false" onAction="#okButtonAction" text="OK" />
+        </buttons>
+      </ButtonBar>
+   </children>
+</AnchorPane>
