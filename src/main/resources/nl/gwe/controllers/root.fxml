@@ -26,7 +26,11 @@
           <Menu mnemonicParsing="false" text="Overzichten">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#showGraphicalView" text="Grafieken" />
-                  <MenuItem mnemonicParsing="false" onAction="#showDataView" text="Tabellen" />
+                  <Menu mnemonicParsing="false" text="Tabellen">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#showMeasurementTableView" text="Meterstanden" />
+                    </items>
+                  </Menu>
             </items>
           </Menu>
         </menus>

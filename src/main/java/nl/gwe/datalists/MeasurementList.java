@@ -1,4 +1,4 @@
-package nl.gwe.repositories;
+package nl.gwe.datalists;
 
 import org.springframework.stereotype.Component;
 
@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import nl.gwe.domain.Measurement;
+import nl.gwe.repositories.MeasurementRepository;
 
 @Component
 public class MeasurementList {
@@ -26,8 +27,8 @@ public class MeasurementList {
         });
 	}
 	
-	public ObservableList<Measurement> getMeasurementList() {
-		return measurementList;
+	public ObservableList<Measurement> getReadOnlyMeasurementList() {
+		return FXCollections.unmodifiableObservableList(measurementList);
 	}
 	
 	public void add(Measurement... measurements) {

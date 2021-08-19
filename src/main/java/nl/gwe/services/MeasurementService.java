@@ -9,9 +9,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
+import nl.gwe.datalists.MeasurementList;
 import nl.gwe.domain.Measurement;
 import nl.gwe.domain.MeterValues;
-import nl.gwe.repositories.MeasurementList;
 import nl.gwe.repositories.MeasurementRepository;
 
 @Slf4j
@@ -28,8 +28,8 @@ public class MeasurementService {
 		this.measurementList = measurementList;
 	}
 
-	public ObservableList<Measurement> getMeasurementList() {
-		return measurementList.getMeasurementList();
+	public ObservableList<Measurement> getReadOnlyMeasurementList() {
+		return measurementList.getReadOnlyMeasurementList();
 	}
 	
 	public void submit(MeterValues meterValues, LocalDate date) {

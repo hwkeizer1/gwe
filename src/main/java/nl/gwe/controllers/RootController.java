@@ -65,7 +65,7 @@ public class RootController implements Initializable {
 	}
 	
 	@FXML
-	public void showDataView(ActionEvent actionEvent) {
+	public void showMeasurementTableView(ActionEvent actionEvent) {
 		rootWindow.setCenter(measurementTableView.getTableView());
 	}
 

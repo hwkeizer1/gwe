@@ -28,7 +28,7 @@ public class MeasurementTableView {
 
 		this.measurementService = measurementService;
 		table = new TableView<>();
-		table.setItems(measurementService.getMeasurementList());
+		table.setItems(this.measurementService.getReadOnlyMeasurementList());
 
 		TableColumn<Measurement, LocalDate> colDate = new TableColumn<>("Datum");
 		TableColumn<Measurement, Integer> colLowElectricityPurchased = new TableColumn<>("Elektra laag afgenomen");
