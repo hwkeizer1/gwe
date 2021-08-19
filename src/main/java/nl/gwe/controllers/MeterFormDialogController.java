@@ -5,6 +5,7 @@ import java.util.function.UnaryOperator;
 
 import org.springframework.stereotype.Controller;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import net.rgielen.fxweaver.core.FxmlView;
+import nl.gwe.domain.Measurement;
 import nl.gwe.domain.MeterValues;
 import nl.gwe.services.MeasurementService;
 

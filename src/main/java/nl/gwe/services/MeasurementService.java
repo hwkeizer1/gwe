@@ -5,9 +5,13 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
 import nl.gwe.domain.Measurement;
 import nl.gwe.domain.MeterValues;
+import nl.gwe.repositories.MeasurementList;
 import nl.gwe.repositories.MeasurementRepository;
 
 @Slf4j
@@ -16,11 +20,18 @@ import nl.gwe.repositories.MeasurementRepository;
 public class MeasurementService {
 
 	private final MeasurementRepository measurementRepository;
+	
+	private final MeasurementList measurementList;
 
-	public MeasurementService(MeasurementRepository measurementRepository) {
+	public MeasurementService(MeasurementRepository measurementRepository, MeasurementList measurementList) {
 		this.measurementRepository = measurementRepository;
+		this.measurementList = measurementList;
 	}
 
+	public ObservableList<Measurement> getMeasurementList() {
+		return measurementList.getMeasurementList();
+	}
+	
 	public void submit(MeterValues meterValues, LocalDate date) {
 		Measurement measurement = new Measurement();
 		Optional<Measurement> optionalLastMeasurement = getLastMeasurement();
@@ -36,19 +47,18 @@ public class MeasurementService {
 				replaceMeterValues(lastMeasurement, meterValues);
 				return;
 			}
+			measurementList.remove(lastMeasurement);
 			lastMeasurement.setEndDate(date.minusDays(1));
 			measurement.setStartDate(date);
 			measurement.setMeterValues(meterValues);
-			measurementRepository.save(lastMeasurement);
-			measurementRepository.save(measurement);
+			measurementList.add(lastMeasurement );
+			measurementList.add(measurement);
 		} else {
 			log.warn("Geen eerdere meetgegevens gevonden");
 			measurement.setStartDate(date);
 			measurement.setMeterValues(meterValues);
-			measurementRepository.save(measurement);
+			measurementList.add(measurement);
 		}
-
-
 	}
 
 	/**

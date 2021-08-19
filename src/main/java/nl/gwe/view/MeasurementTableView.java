@@ -8,31 +8,27 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.AccessibleAttribute;
-import javafx.scene.control.Control;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import lombok.extern.slf4j.Slf4j;
 import nl.gwe.domain.Measurement;
-import nl.gwe.repositories.MeasurementRepository;
+import nl.gwe.services.MeasurementService;
 
 @Slf4j
 @Component
 public class MeasurementTableView {
 
-	private final MeasurementRepository measurementRepository;
+	private final MeasurementService measurementService;
 
 	private TableView<Measurement> table;
 
-	private ObservableList<Measurement> measurements;
+	public MeasurementTableView(MeasurementService measurementService) {
 
-	public MeasurementTableView(MeasurementRepository measurementRepository) {
-
-		this.measurementRepository = measurementRepository;
+		this.measurementService = measurementService;
 		table = new TableView<>();
+		table.setItems(measurementService.getMeasurementList());
 
 		TableColumn<Measurement, LocalDate> colDate = new TableColumn<>("Datum");
 		TableColumn<Measurement, Integer> colLowElectricityPurchased = new TableColumn<>("Elektra laag afgenomen");
@@ -104,25 +100,10 @@ public class MeasurementTableView {
 		table.getColumns().add(colHighElectricityDelivered);
 		table.getColumns().add(colGas);
 		table.getColumns().add(colWater);
-		
-		removeScrollBar(table);
 
 	}
 
 	public TableView<Measurement> getTableView() {
-		measurements = FXCollections.observableList(this.measurementRepository.findAll());
-		table.setItems(measurements);
-		table.refresh();
 		return table;
 	}
-	
-	public <T extends Control> void removeScrollBar(T table) {
-        ScrollBar scrollBar = (ScrollBar) table.queryAccessibleAttribute(AccessibleAttribute.HORIZONTAL_SCROLLBAR);
-        if (scrollBar != null) {
-            scrollBar.setPrefHeight(0);
-            scrollBar.setMaxHeight(0);
-            scrollBar.setOpacity(1);
-            scrollBar.setVisible(false); 
-        }
-    }
 }
