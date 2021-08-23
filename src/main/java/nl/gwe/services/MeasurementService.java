@@ -37,7 +37,6 @@ public class MeasurementService {
 		Optional<Measurement> optionalLastMeasurement = getLastMeasurement();
 		if (optionalLastMeasurement.isPresent()) {
 			Measurement lastMeasurement = optionalLastMeasurement.get();
-			log.debug("{}", lastMeasurement);
 			if (date.isBefore(lastMeasurement.getStartDate())) {
 				log.warn("Datum van de meeting kan niet voor de laatste meeting liggen!");
 				throw new RuntimeException("Onjuiste meetdatum, waarden worden genegeerd");
@@ -47,12 +46,10 @@ public class MeasurementService {
 				replaceMeterValues(lastMeasurement, meterValues);
 				return;
 			}
-			measurementList.remove(lastMeasurement);
 			lastMeasurement.setEndDate(date.minusDays(1));
 			measurement.setStartDate(date);
 			measurement.setMeterValues(meterValues);
-			measurementList.add(lastMeasurement );
-			measurementList.add(measurement);
+			measurementList.add(lastMeasurement, measurement );
 		} else {
 			log.warn("Geen eerdere meetgegevens gevonden");
 			measurement.setStartDate(date);

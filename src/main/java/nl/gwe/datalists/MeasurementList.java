@@ -1,17 +1,23 @@
 package nl.gwe.datalists;
 
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.stereotype.Component;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import lombok.extern.slf4j.Slf4j;
 import nl.gwe.domain.Measurement;
 import nl.gwe.repositories.MeasurementRepository;
 
+@Slf4j
 @Component
 public class MeasurementList {
 	
 	private final MeasurementRepository measurementRepository;
+	
 	
 	private ObservableList<Measurement> measurementList;
 
@@ -19,6 +25,7 @@ public class MeasurementList {
 		this.measurementRepository = measurementRepository;
 		this.measurementList = FXCollections.observableList(measurementRepository.findAll());
 		
+		// DEBUG, should be removed
 		measurementList.addListener(new ListChangeListener<Measurement>() {	 
             @Override
             public void onChanged(ListChangeListener.Change<? extends Measurement> change) {
@@ -33,14 +40,11 @@ public class MeasurementList {
 	
 	public void add(Measurement... measurements) {
 		for(Measurement measurement: measurements) {
-			measurementList.add(measurement);
+			if (measurementList.contains(measurement)){
+				measurementList.remove(measurement);
+			}
 		}
+		measurementList.addAll(measurements);
 		measurementRepository.saveAll(measurementList);
 	}
-	
-	public void remove(Measurement measurement) {
-		measurementList.remove(measurement);
-		measurementRepository.delete(measurement);
-	}
-	
 }
