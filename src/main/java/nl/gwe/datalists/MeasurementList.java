@@ -19,32 +19,27 @@ public class MeasurementList {
 	private final MeasurementRepository measurementRepository;
 	
 	
-	private ObservableList<Measurement> measurementList;
+	private ObservableList<Measurement> observableMeasurementList;
 
 	public MeasurementList(MeasurementRepository measurementRepository) {
 		this.measurementRepository = measurementRepository;
-		this.measurementList = FXCollections.observableList(measurementRepository.findAll());
+		this.observableMeasurementList = FXCollections.observableList(measurementRepository.findAll());
 		
 		// DEBUG, should be removed
-		measurementList.addListener(new ListChangeListener<Measurement>() {	 
-            @Override
-            public void onChanged(ListChangeListener.Change<? extends Measurement> change) {
-                System.out.println("Detected a change! ");
-            }
-        });
+		observableMeasurementList.addListener((ListChangeListener<Measurement>)c -> {log.debug("Detected a change! ");});
 	}
 	
 	public ObservableList<Measurement> getReadOnlyMeasurementList() {
-		return FXCollections.unmodifiableObservableList(measurementList);
+		return FXCollections.unmodifiableObservableList(observableMeasurementList);
 	}
 	
 	public void add(Measurement... measurements) {
 		for(Measurement measurement: measurements) {
-			if (measurementList.contains(measurement)){
-				measurementList.remove(measurement);
+			if (observableMeasurementList.contains(measurement)){
+				observableMeasurementList.remove(measurement);
 			}
 		}
-		measurementList.addAll(measurements);
-		measurementRepository.saveAll(measurementList);
+		observableMeasurementList.addAll(measurements);
+		measurementRepository.saveAll(observableMeasurementList);
 	}
 }

@@ -15,7 +15,6 @@ import nl.gwe.domain.MeterValues;
 import nl.gwe.repositories.MeasurementRepository;
 
 @Slf4j
-
 @Service
 public class MeasurementService {
 
