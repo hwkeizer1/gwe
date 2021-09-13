@@ -29,6 +29,7 @@
                   <Menu mnemonicParsing="false" text="Tabellen">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#showMeasurementTableView" text="Meterstanden" />
+                        <MenuItem mnemonicParsing="false" onAction="#showUsageTableView" text="Verbruik" />
                     </items>
                   </Menu>
             </items>
