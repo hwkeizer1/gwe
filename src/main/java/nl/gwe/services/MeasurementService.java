@@ -17,13 +17,10 @@ import nl.gwe.repositories.MeasurementRepository;
 @Slf4j
 @Service
 public class MeasurementService {
-
-	private final MeasurementRepository measurementRepository;
 	
 	private final MeasurementList measurementList;
 
-	public MeasurementService(MeasurementRepository measurementRepository, MeasurementList measurementList) {
-		this.measurementRepository = measurementRepository;
+	public MeasurementService(MeasurementList measurementList) {
 		this.measurementList = measurementList;
 	}
 
@@ -31,47 +28,70 @@ public class MeasurementService {
 		return measurementList.getReadOnlyMeasurementList();
 	}
 	
-	public void submit(MeterValues meterValues, LocalDate date) {
-		Measurement measurement = new Measurement();
-		Optional<Measurement> optionalLastMeasurement = getLastMeasurement();
+	public void submit(LocalDate date, MeterValues meterValues) {
+		Optional<Measurement> optionalLastMeasurement = measurementList.getLastMeasurement();
 		if (optionalLastMeasurement.isPresent()) {
-			Measurement lastMeasurement = optionalLastMeasurement.get();
-			if (date.isBefore(lastMeasurement.getStartDate())) {
-				log.warn("Datum van de meeting kan niet voor de laatste meeting liggen!");
-				throw new RuntimeException("Onjuiste meetdatum, waarden worden genegeerd");
-			}
-			if (date.isEqual(lastMeasurement.getStartDate())) {
-				log.warn("Datum is gelijk aan die van de laatste meeting. Waarden van de laatste meeting worden overschreven");
-				replaceMeterValues(lastMeasurement, meterValues);
+			Measurement previousMeasurement = optionalLastMeasurement.get();
+			if (date.isBefore(previousMeasurement.getStartDate())) {
+				invalidMeasurement();
 				return;
 			}
-			lastMeasurement.setEndDate(date.minusDays(1));
-			measurement.setStartDate(date);
-			measurement.setMeterValues(meterValues);
-			measurementList.add(lastMeasurement, measurement );
+			if (date.isEqual(previousMeasurement.getStartDate())) {
+				measurementList.add(updateMeasurement(previousMeasurement, meterValues));
+				return;
+			}
+
+			measurementList.add(completeMeasurement(previousMeasurement, date.minusDays(1), meterValues),
+					createMeasurement(date, meterValues));
 		} else {
 			log.warn("Geen eerdere meetgegevens gevonden");
-			measurement.setStartDate(date);
-			measurement.setMeterValues(meterValues);
-			measurementList.add(measurement);
+			measurementList.add(createMeasurement(date, meterValues));
 		}
 	}
-
-	/**
-	 * The last measurement is the measurement that has no end date
-	 * 
-	 * @return last measurement
-	 */
-	private Optional<Measurement> getLastMeasurement() {
-		return measurementRepository.findAll().stream()
-				.filter(m -> m.getEndDate() == null).findAny();
-
+	
+	private Measurement createMeasurement(LocalDate date, MeterValues meterValues) {
+		Measurement measurement = new Measurement();
+		measurement.setStartDate(date);
+		measurement.setMeterValues(meterValues);
+		return measurement;
 	}
 	
-	private void replaceMeterValues(Measurement measurement, MeterValues meterValues) {
-		Long id = measurement.getMeterValues().getId();
-		measurement.setMeterValues(meterValues);
-		measurement.getMeterValues().setId(id);
-		measurementRepository.save(measurement);
+	private Measurement updateMeasurement(Measurement previousMeasurement, MeterValues meterValues) {
+		log.warn("Datum is gelijk aan die van de laatste meeting. Waarden van de laatste meeting worden overschreven");
+		meterValues.setId(previousMeasurement.getMeterValues().getId());
+		previousMeasurement.setMeterValues(meterValues);
+		return previousMeasurement;
 	}
+	
+	/*
+	 * Currently only absorbs invalid input from the measurement form dialog in a RuntimeException
+	 * This will be changed later to produce informative feedback to the user
+	 */
+	private void invalidMeasurement() {
+		log.warn("Datum van de meeting kan niet voor een eerdere meeting liggen!");
+		// TODO sent feedback to user
+		throw new RuntimeException("Onjuiste meetdatum, waarden worden genegeerd");
+	}
+	
+	/*
+	 * Completes a previous measurement with the calculated usages
+	 */
+	private Measurement completeMeasurement(Measurement previousMeasurement, LocalDate endDate, MeterValues endValues) {
+		previousMeasurement.setEndDate(endDate);
+		MeterValues usages = calculateUsage(previousMeasurement.getMeterValues(), endValues);
+		previousMeasurement.setUsages(usages);
+		return previousMeasurement;
+	}
+	
+	private MeterValues calculateUsage(MeterValues m1, MeterValues m2) {
+		return new MeterValues.Builder()
+				.setLowElectricityPurchased(m2.getLowElectricityPurchased() - m1.getLowElectricityPurchased())
+				.setLowElectricityDelivered(m2.getLowElectricityDelivered() - m1.getLowElectricityDelivered())
+				.setHighElectricityPurchased(m2.getHighElectricityPurchased() - m1.getHighElectricityPurchased())
+				.setHighElectricityDelivered(m2.getHighElectricityDelivered() - m1.getHighElectricityDelivered())
+				.setGasPurchased(m2.getGasPurchased() - m1.getGasPurchased())
+				.setWaterPurchased(m2.getWaterPurchased() - m1.getWaterPurchased())
+				.build();
+	}
+
 }

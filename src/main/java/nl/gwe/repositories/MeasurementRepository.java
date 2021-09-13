@@ -4,6 +4,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import nl.gwe.domain.Measurement;
 
-public interface MeasurementRepository extends JpaRepository<Measurement, Long>{
-
-}
+public interface MeasurementRepository extends JpaRepository<Measurement, Long> {}

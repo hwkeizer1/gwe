@@ -1,7 +1,11 @@
 package nl.gwe.datalists;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -10,6 +14,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
 import nl.gwe.domain.Measurement;
+import nl.gwe.domain.MonthUsage;
 import nl.gwe.repositories.MeasurementRepository;
 
 @Slf4j
@@ -18,28 +23,74 @@ public class MeasurementList {
 	
 	private final MeasurementRepository measurementRepository;
 	
-	
 	private ObservableList<Measurement> observableMeasurementList;
 
 	public MeasurementList(MeasurementRepository measurementRepository) {
 		this.measurementRepository = measurementRepository;
 		this.observableMeasurementList = FXCollections.observableList(measurementRepository.findAll());
-		
-		// DEBUG, should be removed
-		observableMeasurementList.addListener((ListChangeListener<Measurement>)c -> {log.debug("Detected a change! ");});
 	}
 	
 	public ObservableList<Measurement> getReadOnlyMeasurementList() {
 		return FXCollections.unmodifiableObservableList(observableMeasurementList);
 	}
 	
+	public Optional<Measurement> getLastMeasurement() {
+		Optional<Measurement> optionalMeasurement = observableMeasurementList.stream()
+				.filter(m -> m.getEndDate() == null).findAny();
+		return optionalMeasurement;
+	}
+	
+	public LocalDate getLastMeasurementDate() {
+		Optional<Measurement> optionalMeasurement = getLastMeasurement();
+		if (optionalMeasurement.isPresent()) return optionalMeasurement.get().getStartDate();
+		return null;
+	}
+	
+	public List<Measurement> getAllMeasurementsForLastMonthCalculation(LocalDate lastMonthUsage) {
+		List<Measurement> resultList = new ArrayList<>();
+		long count = observableMeasurementList.stream()
+				.filter(m -> m.getStartDate().getMonthValue() == lastMonthUsage.getMonthValue())
+				.count();
+		Optional<Measurement> optionalFirstMeasurement = observableMeasurementList.stream()
+				.filter(m -> m.getStartDate().getMonthValue() == lastMonthUsage.getMonthValue())
+				.skip(count-1)
+				.findFirst();
+		if (!optionalFirstMeasurement.isPresent()) {
+			return resultList;
+		}
+		resultList.add(optionalFirstMeasurement.get());
+		LocalDate firstDate = optionalFirstMeasurement.get().getStartDate();
+		resultList.addAll(observableMeasurementList.stream()
+				.filter(m -> m.getStartDate().isAfter(firstDate))
+				.collect(Collectors.toList()));
+		//Lijst moet firstdate bevatten (laatste meeting maand ervoor) tot en MET de laatste meeting (tweede meeting maand erna)
+		return resultList;
+	}
+	
+	
 	public void add(Measurement... measurements) {
 		for(Measurement measurement: measurements) {
 			if (observableMeasurementList.contains(measurement)){
-				observableMeasurementList.remove(measurement);
+				observableMeasurementList.set(observableMeasurementList.lastIndexOf(measurement), measurement);
+			} else {
+				observableMeasurementList.add(measurement);
 			}
 		}
-		observableMeasurementList.addAll(measurements);
 		measurementRepository.saveAll(observableMeasurementList);
+	}
+	
+	public void addListener(ListChangeListener<Measurement> listener) {
+		observableMeasurementList.addListener(listener);
+	}
+	
+	public void removeChangeListener(ListChangeListener<Measurement> listener) {
+		observableMeasurementList.removeListener(listener);
+	}
+	
+	/*
+	 * Setter for JUnit testing only
+	 */
+	void setObservableMeasurementList(ObservableList<Measurement> observableMeasurementList) {
+		this.observableMeasurementList = observableMeasurementList;
 	}
 }

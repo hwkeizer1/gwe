@@ -94,7 +94,7 @@ public class MeterFormDialogController {
 				.setGasPurchased(Integer.parseInt(gasPurchasedField.getText()))
 				.setWaterPurchased(Integer.parseInt(waterPurchasedField.getText()))
 				.build();
-		measurementService.submit(meterReading, dateField.getValue());
+		measurementService.submit(dateField.getValue(), meterReading);
 		stage.close();
 	}
 

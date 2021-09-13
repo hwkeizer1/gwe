@@ -1,7 +1,8 @@
 package nl.gwe.domain;
 
 import java.time.LocalDate;
-import java.util.Objects;
+import java.time.Month;
+import java.util.Comparator;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -14,28 +15,23 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Measurement {
+public class MonthUsage {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	private LocalDate startDate;
+	private Long id; 
 	
-	private LocalDate endDate;
+	private LocalDate date;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private MeterValues meterValues;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	private MeterValues usages;
-
-	@Override
-	public String toString() {
-		return "id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", meterValues="
-				+ meterValues + "\n";
+	public Month getMonth() {
+		return this.date.getMonth();
 	}
 	
-	
-	
+	public int getYear() {
+		return this.date.getYear();
+	}
+
 }
