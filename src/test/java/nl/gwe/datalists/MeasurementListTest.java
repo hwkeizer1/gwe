@@ -71,13 +71,13 @@ class MeasurementListTest {
 		assertEquals(Optional.empty(), measurementList.getLastMeasurementDate());
 	}
 
-	@Test
-	void testGetAllMeasurementsForLastMonthCalculation() {
-		List<Measurement> expectedList = testData.getOrderedMeasurementList();
-		expectedList.remove(0);
-		
-		LocalDate lastMonthUsage = LocalDate.of(2021, 6, 1);
-		List<Measurement> measurements = measurementList.getAllMeasurementsForLastMonthCalculation(lastMonthUsage);
-		assertEquals(expectedList, measurements);
-	}
+//	@Test
+//	void testGetAllMeasurementsForLastMonthCalculation() {
+//		List<Measurement> expectedList = testData.getOrderedMeasurementList();
+//		expectedList.remove(0);
+//		
+//		LocalDate lastMonthUsage = LocalDate.of(2021, 6, 1);
+//		List<Measurement> measurements = measurementList.getAllMeasurementsForLastMonthCalculation(lastMonthUsage);
+//		assertEquals(expectedList, measurements);
+//	}
 }

@@ -52,7 +52,7 @@ class MonthUsageServiceTest {
 	void testGetLastMonthUsageYearMonth_NoLastMonthUsage() {
 		when(monthUsageList.getLastMonthUsageYearMonth()).thenReturn(Optional.empty());
 		when(measurementList.getFirstMeasurementDate()).thenReturn(Optional.of(LocalDate.of(2021, 6, 2)));
-		Optional<YearMonth> expected = Optional.of(YearMonth.of(2021, 6));
+		Optional<YearMonth> expected = Optional.of(YearMonth.of(2021, 7));
 		assertEquals(expected, monthUsageService.getLastMonthUsageYearMonth());
 	}
 	
@@ -60,7 +60,7 @@ class MonthUsageServiceTest {
 	void testGetLastMonthUsageYearMonth_NoLastMonthUsage_FirstDateFirstOfMonth() {
 		when(monthUsageList.getLastMonthUsageYearMonth()).thenReturn(Optional.empty());
 		when(measurementList.getFirstMeasurementDate()).thenReturn(Optional.of(LocalDate.of(2021, 6, 1)));
-		Optional<YearMonth> expected = Optional.of(YearMonth.of(2021, 5));
+		Optional<YearMonth> expected = Optional.of(YearMonth.of(2021, 6));
 		assertEquals(expected, monthUsageService.getLastMonthUsageYearMonth());
 	}
 	

@@ -47,7 +47,7 @@ public class MeasurementList {
 	
 	public Optional<Measurement> getFirstMeasurement() {
 		return observableMeasurementList.stream()
-				.filter(m -> m.getEndDate() == null).findFirst();
+				.filter(m -> m.getEndDate() != null).findFirst();
 	}
 	
 	public Optional<LocalDate> getFirstMeasurementDate() {
@@ -56,26 +56,26 @@ public class MeasurementList {
 		return Optional.empty();
 	}
 	
-	public List<Measurement> getAllMeasurementsForLastMonthCalculation(LocalDate lastMonthUsage) {
-		List<Measurement> resultList = new ArrayList<>();
-		long count = observableMeasurementList.stream()
-				.filter(m -> m.getStartDate().getMonthValue() == lastMonthUsage.getMonthValue())
-				.count();
-		Optional<Measurement> optionalFirstMeasurement = observableMeasurementList.stream()
-				.filter(m -> m.getStartDate().getMonthValue() == lastMonthUsage.getMonthValue())
-				.skip(count-1)
-				.findFirst();
-		if (!optionalFirstMeasurement.isPresent()) {
-			return resultList;
-		}
-		resultList.add(optionalFirstMeasurement.get());
-		LocalDate firstDate = optionalFirstMeasurement.get().getStartDate();
-		resultList.addAll(observableMeasurementList.stream()
-				.filter(m -> m.getStartDate().isAfter(firstDate))
-				.collect(Collectors.toList()));
-		//Lijst moet firstdate bevatten (laatste meeting maand ervoor) tot en MET de laatste meeting (tweede meeting maand erna)
-		return resultList;
-	}
+//	public List<Measurement> getAllMeasurementsForLastMonthCalculation(LocalDate lastMonthUsage) {
+//		List<Measurement> resultList = new ArrayList<>();
+//		long count = observableMeasurementList.stream()
+//				.filter(m -> m.getStartDate().getMonthValue() == lastMonthUsage.getMonthValue())
+//				.count();
+//		Optional<Measurement> optionalFirstMeasurement = observableMeasurementList.stream()
+//				.filter(m -> m.getStartDate().getMonthValue() == lastMonthUsage.getMonthValue())
+//				.skip(count-1)
+//				.findFirst();
+//		if (!optionalFirstMeasurement.isPresent()) {
+//			return resultList;
+//		}
+//		resultList.add(optionalFirstMeasurement.get());
+//		LocalDate firstDate = optionalFirstMeasurement.get().getStartDate();
+//		resultList.addAll(observableMeasurementList.stream()
+//				.filter(m -> m.getStartDate().isAfter(firstDate))
+//				.collect(Collectors.toList()));
+//		//Lijst moet firstdate bevatten (laatste meeting maand ervoor) tot en MET de laatste meeting (tweede meeting maand erna)
+//		return resultList;
+//	}
 	
 	
 	public void add(Measurement... measurements) {
