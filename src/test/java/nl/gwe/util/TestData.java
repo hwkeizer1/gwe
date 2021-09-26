@@ -11,17 +11,21 @@ import javafx.collections.ObservableList;
 import nl.gwe.domain.Measurement;
 import nl.gwe.domain.MeterValues;
 
-@Component
-public class Prefill {
+public class TestData {
+	
+	LocalDate refDate = LocalDate.of(2021, 9, 15);
+	
+	public LocalDate getRefDate() {
+		return refDate;
+	}
 	
 	public ObservableList<Measurement> getOrderedMeasurementList() {
 		List<Measurement> measurements = new ArrayList<>();
-		measurements.add(getMeasurement(1L, LocalDate.now().minusDays(100), LocalDate.now().minusDays(80), 10));
-		measurements.add(getMeasurement(2L, LocalDate.now().minusDays(80), LocalDate.now().minusDays(60), 20));
-		measurements.add(getMeasurement(3L, LocalDate.now().minusDays(60), LocalDate.now().minusDays(40), 30));
-		measurements.add(getMeasurement(4L, LocalDate.now().minusDays(40), LocalDate.now().minusDays(20), 40));
-		ObservableList<Measurement> observableMeasurements = FXCollections.observableList(measurements);
-		return FXCollections.unmodifiableObservableList(observableMeasurements);
+		measurements.add(getMeasurement(1L, refDate.minusDays(100), refDate.minusDays(80), 10));
+		measurements.add(getMeasurement(2L, refDate.minusDays(80), refDate.minusDays(60), 20));
+		measurements.add(getMeasurement(3L, refDate.minusDays(60), refDate.minusDays(40), 30));
+		measurements.add(getMeasurement(4L, refDate.minusDays(40), null, 40));
+		return FXCollections.observableList(measurements);
 	}
 	
 	public Measurement getMeasurement(Long id, LocalDate startDate, LocalDate endDate, int values) {
@@ -45,5 +49,4 @@ public class Prefill {
 		meterValue.setId(id);
 		return meterValue;
 	}
-
 }

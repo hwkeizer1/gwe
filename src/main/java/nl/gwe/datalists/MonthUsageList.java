@@ -1,8 +1,6 @@
 package nl.gwe.datalists;
 
-import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
-import java.util.List;
+import java.time.YearMonth;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
@@ -17,55 +15,46 @@ import nl.gwe.repositories.MonthUsageRepository;
 
 @Slf4j
 @Component
-public class MonthUsageList implements ListChangeListener<Measurement> {
+public class MonthUsageList  {
 	
-	private final MeasurementList measurementList;
 	private final MonthUsageRepository monthUsageRepository;
 
 	private ObservableList<MonthUsage> observableMonthUsageList;
 
 	public MonthUsageList(MeasurementList measurementlist, MonthUsageRepository monthUsageRepository) {
-		this.measurementList = measurementlist;
 		this.monthUsageRepository = monthUsageRepository;
-		
-		// Listen to observableMeasurementList for changes
-		this.measurementList.addListener(this);
-		
 		this.observableMonthUsageList = FXCollections.observableList(monthUsageRepository.findAll());
 	}
 	
 	public ObservableList<MonthUsage> getReadOnlyMonthUsageList() {
 		return FXCollections.unmodifiableObservableList(observableMonthUsageList);
 	}
-
-	@Override
-	public void onChanged(Change<? extends Measurement> c) {
-		LocalDate lastMeasurement = measurementList.getLastMeasurementDate();
-		if (lastMeasurement != null) {
-			checkForNewMonthUsage(lastMeasurement);
-		}
-		
-	}
 	
-	private void checkForNewMonthUsage(LocalDate lastMeasurementDate) {
-		Optional<LocalDate> optionalDate = getLastMonthUsage();
-		if (optionalDate.isPresent()) {
-			LocalDate lastMonthUsage = optionalDate.get();
-			LocalDate fullMonthAfterUsage = lastMonthUsage.with(TemporalAdjusters.lastDayOfMonth()).plusMonths(1);
-			if (lastMeasurementDate.isAfter(fullMonthAfterUsage)) calculateNewMonthUsage(lastMonthUsage);
-		} else {/* nog geen lastMonthUsage beschikbaar */}
-	}
-	
-
-	private void calculateNewMonthUsage(LocalDate lastMonthUsage) {
-		List<Measurement> measurements = measurementList.getAllMeasurementsForLastMonthCalculation(lastMonthUsage);
-		
-	}
-	
-	private Optional<LocalDate> getLastMonthUsage() {
+	public Optional<YearMonth> getLastMonthUsageYearMonth() {
 		return (monthUsageRepository.findAll().stream()
 				.map(MonthUsage::getDate)
-				.max(LocalDate::compareTo));
-				
+				.max(YearMonth::compareTo));		
+	}
+
+	public void add(MonthUsage monthUsage) {
+		log.debug("Replace this dummy code for the actual saveNewMonthUsage code!!!");
+		log.debug("Saved NewMonthUsage: {}", monthUsage);
+//		observableMonthUsageList.add(monthUsage);
+//		monthUsageRepository.saveAll(observableMonthUsageList);
+	}
+	
+	public void addListener(ListChangeListener<MonthUsage> listener) {
+		observableMonthUsageList.addListener(listener);
+	}
+	
+	public void removeChangeListener(ListChangeListener<MonthUsage> listener) {
+		observableMonthUsageList.removeListener(listener);
+	}
+	
+	/*
+	 * Setter for JUnit testing only
+	 */
+	void setObservableMonthUsageList(ObservableList<MonthUsage> observableMonthUsageList) {
+		this.observableMonthUsageList = observableMonthUsageList;
 	}
 }

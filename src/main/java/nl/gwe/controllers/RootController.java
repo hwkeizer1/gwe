@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import nl.gwe.view.MeasurementTableView;
+import nl.gwe.view.UsageChartView;
 import nl.gwe.view.UsageTableView;
 
 @Controller
@@ -21,14 +22,19 @@ public class RootController implements Initializable {
 	private final FxWeaver fxWeaver;
 	private final MeasurementTableView measurementTableView;
 	private final UsageTableView usageTableView;
+	private final UsageChartView usageChartView;
 	
 	@FXML
 	private BorderPane rootWindow;
 	
-	public RootController(FxWeaver fxWeaver, MeasurementTableView measurementTableView, UsageTableView usageTableView) {
+	public RootController(FxWeaver fxWeaver, 
+			MeasurementTableView measurementTableView, 
+			UsageTableView usageTableView,
+			UsageChartView usageChartView) {
 		this.fxWeaver = fxWeaver;
 		this.measurementTableView = measurementTableView;
 		this.usageTableView = usageTableView;
+		this.usageChartView = usageChartView;
 	}
 	
 	@Override
@@ -64,7 +70,7 @@ public class RootController implements Initializable {
 	
 	@FXML
 	public void showGraphicalView(ActionEvent actionEvent) {
-		
+		rootWindow.setCenter(usageChartView.initUsageChart());
 	}
 	
 	@FXML

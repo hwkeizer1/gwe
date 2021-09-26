@@ -74,7 +74,7 @@ public class MeasurementService {
 	}
 	
 	/*
-	 * Completes a previous measurement with the calculated usages
+	 * Completes the previous measurement with the calculated usages
 	 */
 	private Measurement completeMeasurement(Measurement previousMeasurement, LocalDate endDate, MeterValues endValues) {
 		previousMeasurement.setEndDate(endDate);

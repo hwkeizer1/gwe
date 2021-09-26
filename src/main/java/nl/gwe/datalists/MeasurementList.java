@@ -35,15 +35,25 @@ public class MeasurementList {
 	}
 	
 	public Optional<Measurement> getLastMeasurement() {
-		Optional<Measurement> optionalMeasurement = observableMeasurementList.stream()
+		return observableMeasurementList.stream()
 				.filter(m -> m.getEndDate() == null).findAny();
-		return optionalMeasurement;
 	}
 	
-	public LocalDate getLastMeasurementDate() {
+	public Optional<LocalDate> getLastMeasurementDate() {
 		Optional<Measurement> optionalMeasurement = getLastMeasurement();
-		if (optionalMeasurement.isPresent()) return optionalMeasurement.get().getStartDate();
-		return null;
+		if (optionalMeasurement.isPresent()) return Optional.of(optionalMeasurement.get().getStartDate());
+		return Optional.empty();
+	}
+	
+	public Optional<Measurement> getFirstMeasurement() {
+		return observableMeasurementList.stream()
+				.filter(m -> m.getEndDate() == null).findFirst();
+	}
+	
+	public Optional<LocalDate> getFirstMeasurementDate() {
+		Optional<Measurement> optionalMeasurement = getFirstMeasurement();
+		if (optionalMeasurement.isPresent()) return Optional.of(optionalMeasurement.get().getStartDate());
+		return Optional.empty();
 	}
 	
 	public List<Measurement> getAllMeasurementsForLastMonthCalculation(LocalDate lastMonthUsage) {
