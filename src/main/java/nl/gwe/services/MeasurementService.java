@@ -41,7 +41,7 @@ public class MeasurementService {
 				return;
 			}
 
-			measurementList.add(completeMeasurement(previousMeasurement, date.minusDays(1), meterValues),
+			measurementList.add(completeMeasurement(previousMeasurement, date, meterValues),
 					createMeasurement(date, meterValues));
 		} else {
 			log.warn("Geen eerdere meetgegevens gevonden");

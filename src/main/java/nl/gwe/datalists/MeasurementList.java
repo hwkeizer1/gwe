@@ -1,6 +1,7 @@
 package nl.gwe.datalists;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -56,27 +57,26 @@ public class MeasurementList {
 		return Optional.empty();
 	}
 	
-//	public List<Measurement> getAllMeasurementsForLastMonthCalculation(LocalDate lastMonthUsage) {
-//		List<Measurement> resultList = new ArrayList<>();
-//		long count = observableMeasurementList.stream()
-//				.filter(m -> m.getStartDate().getMonthValue() == lastMonthUsage.getMonthValue())
-//				.count();
-//		Optional<Measurement> optionalFirstMeasurement = observableMeasurementList.stream()
-//				.filter(m -> m.getStartDate().getMonthValue() == lastMonthUsage.getMonthValue())
-//				.skip(count-1)
-//				.findFirst();
-//		if (!optionalFirstMeasurement.isPresent()) {
-//			return resultList;
-//		}
-//		resultList.add(optionalFirstMeasurement.get());
-//		LocalDate firstDate = optionalFirstMeasurement.get().getStartDate();
-//		resultList.addAll(observableMeasurementList.stream()
-//				.filter(m -> m.getStartDate().isAfter(firstDate))
-//				.collect(Collectors.toList()));
-//		//Lijst moet firstdate bevatten (laatste meeting maand ervoor) tot en MET de laatste meeting (tweede meeting maand erna)
-//		return resultList;
-//	}
+	public Optional<Measurement> getFirstMeasurementOfMonth(YearMonth yearMonth) {
+		return observableMeasurementList.stream()
+				.filter(m -> m.getStartDate().getYear() == (yearMonth.getYear()))
+				.filter(m -> m.getStartDate().getMonth().equals(yearMonth.getMonth()))
+				.findFirst();
+	}
 	
+	public Optional<Measurement> getLastMeasurementOfMonth(YearMonth yearMonth) {
+		return observableMeasurementList.stream()
+				.filter(m -> m.getStartDate().getYear() == (yearMonth.getYear()))
+				.filter(m -> m.getStartDate().getMonth().equals(yearMonth.getMonth()))
+				.max(Measurement::compareTo);
+	}
+	
+	public List<Measurement> getAllMeasurementOfMonth(YearMonth yearMonth) {
+		return observableMeasurementList.stream()
+				.filter(m -> m.getStartDate().getYear() == (yearMonth.getYear()))
+				.filter(m -> m.getStartDate().getMonth().equals(yearMonth.getMonth()))
+				.collect(Collectors.toList());
+	}
 	
 	public void add(Measurement... measurements) {
 		for(Measurement measurement: measurements) {

@@ -25,9 +25,14 @@ public class MonthUsage {
 	private YearMonth date;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	private MeterValues meterValues;
+	private MeterValues usages;
 
 	public String getYearMonthLabel() {
 		return date.toString();
+	}
+
+	@Override
+	public String toString() {
+		return "MonthUsage [id=" + id + ", date=" + date + ", usages=" + usages + "]";
 	}
 }

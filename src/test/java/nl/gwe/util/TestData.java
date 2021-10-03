@@ -8,9 +8,11 @@ import org.springframework.stereotype.Component;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import lombok.extern.slf4j.Slf4j;
 import nl.gwe.domain.Measurement;
 import nl.gwe.domain.MeterValues;
 
+@Slf4j
 public class TestData {
 	
 	LocalDate refDate = LocalDate.of(2021, 9, 15);
@@ -21,10 +23,10 @@ public class TestData {
 	
 	public ObservableList<Measurement> getOrderedMeasurementList() {
 		List<Measurement> measurements = new ArrayList<>();
-		measurements.add(getMeasurement(1L, refDate.minusDays(100), refDate.minusDays(80), 10));
-		measurements.add(getMeasurement(2L, refDate.minusDays(80), refDate.minusDays(60), 20));
-		measurements.add(getMeasurement(3L, refDate.minusDays(60), refDate.minusDays(40), 30));
-		measurements.add(getMeasurement(4L, refDate.minusDays(40), null, 40));
+		measurements.add(getMeasurement(1L, refDate.minusDays(100), refDate.minusDays(80), 10)); //2021-06-07
+		measurements.add(getMeasurement(2L, refDate.minusDays(80), refDate.minusDays(60), 20)); //2021-06-27
+		measurements.add(getMeasurement(3L, refDate.minusDays(60), refDate.minusDays(40), 30));	//2021-07-17
+		measurements.add(getMeasurement(4L, refDate.minusDays(40), null, 40)); //2021-08-06
 		return FXCollections.observableList(measurements);
 	}
 	
