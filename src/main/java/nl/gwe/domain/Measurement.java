@@ -34,7 +34,7 @@ public class Measurement implements Comparable<Measurement>{
 	@Override
 	public String toString() {
 		return "id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", usages="
-				+ usages + "\n";
+				+ usages;
 	}
 
 	@Override

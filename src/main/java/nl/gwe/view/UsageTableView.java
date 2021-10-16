@@ -28,12 +28,12 @@ public class UsageTableView {
 
 		TableColumn<Measurement, LocalDate> colBeginDate = new TableColumn<>("Begin datum");
 		TableColumn<Measurement, LocalDate> colEndDate = new TableColumn<>("Eind datum");
-		TableColumn<Measurement, Integer> colLowElectricityPurchased = new TableColumn<>("Elektra laag afgenomen");
-		TableColumn<Measurement, Integer> colLowElectricityDelivered = new TableColumn<>("Elektra laag geleverd");
-		TableColumn<Measurement, Integer> colHighElectricityPurchased = new TableColumn<>("Elektra hoog afgenomen");
-		TableColumn<Measurement, Integer> colHighElectricityDelivered = new TableColumn<>("Elektra hoog geleverd");
-		TableColumn<Measurement, Integer> colGas = new TableColumn<>("Gas");
-		TableColumn<Measurement, Integer> colWater = new TableColumn<>("Water");
+		TableColumn<Measurement, Float> colLowElectricityPurchased = new TableColumn<>("Elektra laag afgenomen");
+		TableColumn<Measurement, Float> colLowElectricityDelivered = new TableColumn<>("Elektra laag geleverd");
+		TableColumn<Measurement, Float> colHighElectricityPurchased = new TableColumn<>("Elektra hoog afgenomen");
+		TableColumn<Measurement, Float> colHighElectricityDelivered = new TableColumn<>("Elektra hoog geleverd");
+		TableColumn<Measurement, Float> colGas = new TableColumn<>("Gas");
+		TableColumn<Measurement, Float> colWater = new TableColumn<>("Water");
 
 		colBeginDate.prefWidthProperty().bind(table.widthProperty().multiply(0.09));
 		colEndDate.prefWidthProperty().bind(table.widthProperty().multiply(0.09));
@@ -59,46 +59,46 @@ public class UsageTableView {
 				});
 
 		colLowElectricityPurchased
-				.setCellValueFactory(new Callback<CellDataFeatures<Measurement, Integer>, ObservableValue<Integer>>() {
-					public ObservableValue<Integer> call(CellDataFeatures<Measurement, Integer> p) {
+				.setCellValueFactory(new Callback<CellDataFeatures<Measurement, Float>, ObservableValue<Float>>() {
+					public ObservableValue<Float> call(CellDataFeatures<Measurement, Float> p) {
 						if (p.getValue().getUsages() == null) return null;
 						return new ReadOnlyObjectWrapper<>(p.getValue().getUsages().getLowElectricityPurchased());
 					}
 				});
 
 		colLowElectricityDelivered
-				.setCellValueFactory(new Callback<CellDataFeatures<Measurement, Integer>, ObservableValue<Integer>>() {
-					public ObservableValue<Integer> call(CellDataFeatures<Measurement, Integer> p) {
+				.setCellValueFactory(new Callback<CellDataFeatures<Measurement, Float>, ObservableValue<Float>>() {
+					public ObservableValue<Float> call(CellDataFeatures<Measurement, Float> p) {
 						if (p.getValue().getUsages() == null) return null;
 						return new ReadOnlyObjectWrapper<>(p.getValue().getUsages().getLowElectricityDelivered());
 					}
 				});
 
 		colHighElectricityPurchased
-				.setCellValueFactory(new Callback<CellDataFeatures<Measurement, Integer>, ObservableValue<Integer>>() {
-					public ObservableValue<Integer> call(CellDataFeatures<Measurement, Integer> p) {
+				.setCellValueFactory(new Callback<CellDataFeatures<Measurement, Float>, ObservableValue<Float>>() {
+					public ObservableValue<Float> call(CellDataFeatures<Measurement, Float> p) {
 						if (p.getValue().getUsages() == null) return null;
 						return new ReadOnlyObjectWrapper<>(p.getValue().getUsages().getHighElectricityPurchased());
 					}
 				});
 
 		colHighElectricityDelivered
-				.setCellValueFactory(new Callback<CellDataFeatures<Measurement, Integer>, ObservableValue<Integer>>() {
-					public ObservableValue<Integer> call(CellDataFeatures<Measurement, Integer> p) {
+				.setCellValueFactory(new Callback<CellDataFeatures<Measurement, Float>, ObservableValue<Float>>() {
+					public ObservableValue<Float> call(CellDataFeatures<Measurement, Float> p) {
 						if (p.getValue().getUsages() == null) return null;
 						return new ReadOnlyObjectWrapper<>(p.getValue().getUsages().getHighElectricityDelivered());
 					}
 				});
 
-		colGas.setCellValueFactory(new Callback<CellDataFeatures<Measurement, Integer>, ObservableValue<Integer>>() {
-			public ObservableValue<Integer> call(CellDataFeatures<Measurement, Integer> p) {
+		colGas.setCellValueFactory(new Callback<CellDataFeatures<Measurement, Float>, ObservableValue<Float>>() {
+			public ObservableValue<Float> call(CellDataFeatures<Measurement, Float> p) {
 				if (p.getValue().getUsages() == null) return null;
 				return new ReadOnlyObjectWrapper<>(p.getValue().getUsages().getGasPurchased());
 			}
 		});
 
-		colWater.setCellValueFactory(new Callback<CellDataFeatures<Measurement, Integer>, ObservableValue<Integer>>() {
-			public ObservableValue<Integer> call(CellDataFeatures<Measurement, Integer> p) {
+		colWater.setCellValueFactory(new Callback<CellDataFeatures<Measurement, Float>, ObservableValue<Float>>() {
+			public ObservableValue<Float> call(CellDataFeatures<Measurement, Float> p) {
 				if (p.getValue().getUsages() == null) return null;
 				return new ReadOnlyObjectWrapper<>(p.getValue().getUsages().getWaterPurchased());
 			}

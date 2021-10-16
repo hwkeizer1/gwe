@@ -46,7 +46,6 @@ public class MonthUsageService implements ListChangeListener<Measurement> {
 		monthUsage.setDate(lastMonthUsageYearMonth.plusMonths(1));
 		List<Measurement> measurements = getMeasurementsForLastMonthCalculation(lastMonthUsageYearMonth);
 		monthUsage.setUsages(calculateUsagesForMonth(measurements, lastMonthUsageYearMonth.plusMonths(1)));
-
 		return monthUsage;
 	}
 
@@ -54,21 +53,62 @@ public class MonthUsageService implements ListChangeListener<Measurement> {
 		MeterValues meterValues = new MeterValues();
 		LocalDate firstDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonthValue(), 1);
 		LocalDate lastDay = yearMonth.atEndOfMonth();
+		log.debug("Calculating usages for month {} with first day {} and last day {}", yearMonth, firstDay, lastDay);
 		for (Measurement measurement: measurements) {
-			
+			log.debug("\tProcessing measurement {}", measurement);
+			MeterValues monthUsagePart = calculateMeasurementMonthUsagePart(measurement, firstDay, lastDay);
+			log.debug("\tMonth usage part: {}", monthUsagePart);
+			meterValues = addMeterValues(meterValues, monthUsagePart);
+			log.debug("\tResulting metervalues: {}", meterValues);
 		}
 		return meterValues;
 	}
 	
-//	MeterValues calculateMeasurementMonthUsagePart(Measurement measurement, LocalDate firstDay, LocalDate lastDay) {
-//		Long numberOfDaysTotal = getDaysOfPeriod(measurement.getStartDate(), measurement.getEndDate());
-//		if (measurement.getStartDate().isBefore(firstDay)) {
-//			MeterValue measurementDayUsage = 
-//			// calculate average usages for this period meterValues
-//			// calculate number of days in the required yearMonth periode
-//			// Usages = numberOfDays * average usages (meterValues)
-//		}
-//	}
+	MeterValues addMeterValues(MeterValues mv1, MeterValues mv2) {
+		MeterValues result = new MeterValues();
+		result.setLowElectricityPurchased(mv1.getLowElectricityPurchased() + mv2.getLowElectricityPurchased());
+		result.setLowElectricityDelivered(mv1.getLowElectricityDelivered() + mv2.getLowElectricityDelivered());
+		result.setHighElectricityPurchased(mv1.getHighElectricityPurchased() + mv2.getHighElectricityPurchased());
+		result.setHighElectricityDelivered(mv1.getHighElectricityDelivered() + mv2.getHighElectricityDelivered());
+		result.setGasPurchased(mv1.getGasPurchased() + mv2.getGasPurchased());
+		result.setWaterPurchased(mv1.getWaterPurchased() + mv2.getWaterPurchased());
+		return result;
+	}
+	
+	MeterValues calculateMeasurementMonthUsagePart(Measurement measurement, LocalDate firstDay, LocalDate lastDay) {
+		Long numberOfDaysTotal = getDaysOfPeriod(measurement.getStartDate(), measurement.getEndDate());
+		if (measurement.getStartDate().isBefore(firstDay) || measurement.getEndDate().isAfter(lastDay)) {
+			MeterValues measurementDayUsage = calculateAverageDayUsageOfMeasurement(measurement);
+			Long numberOfDaysInMonth = getMeasurementDaysInYearMonth(measurement, firstDay, lastDay);
+			return calculateTotalUsage(measurementDayUsage, numberOfDaysInMonth);
+		} else {
+			MeterValues measurementDayUsage = calculateAverageDayUsageOfMeasurement(measurement);
+			return calculateTotalUsage(measurementDayUsage, numberOfDaysTotal);
+		}
+	}
+	
+	MeterValues calculateTotalUsage(MeterValues meterValues, Long numberOfDays) {
+		MeterValues totalUsage = new MeterValues();
+		totalUsage.setLowElectricityPurchased(meterValues.getLowElectricityPurchased()*numberOfDays);
+		totalUsage.setLowElectricityDelivered(meterValues.getLowElectricityDelivered()*numberOfDays);
+		totalUsage.setHighElectricityPurchased(meterValues.getHighElectricityPurchased()*numberOfDays);
+		totalUsage.setHighElectricityDelivered(meterValues.getHighElectricityDelivered()*numberOfDays);
+		totalUsage.setGasPurchased(meterValues.getGasPurchased()*numberOfDays);
+		totalUsage.setWaterPurchased(meterValues.getWaterPurchased()*numberOfDays);
+		return totalUsage;
+	}
+	
+	MeterValues calculateAverageDayUsageOfMeasurement(Measurement measurement) {
+		MeterValues averageDayUsage = new MeterValues();
+		Long numberOfDays = getDaysOfPeriod(measurement.getStartDate(), measurement.getEndDate());
+		averageDayUsage.setLowElectricityPurchased(measurement.getUsages().getLowElectricityPurchased()/numberOfDays);
+		averageDayUsage.setLowElectricityDelivered(measurement.getUsages().getLowElectricityDelivered()/numberOfDays);
+		averageDayUsage.setHighElectricityPurchased(measurement.getUsages().getHighElectricityPurchased()/numberOfDays);
+		averageDayUsage.setHighElectricityDelivered(measurement.getUsages().getHighElectricityDelivered()/numberOfDays);
+		averageDayUsage.setGasPurchased(measurement.getUsages().getGasPurchased()/numberOfDays);
+		averageDayUsage.setWaterPurchased(measurement.getUsages().getWaterPurchased()/numberOfDays);
+		return averageDayUsage;
+	}
 	
 	Long getMeasurementDaysInYearMonth(Measurement measurement, LocalDate firstDay, LocalDate lastDay) {
 		if (measurement.getStartDate().isBefore(firstDay)) {

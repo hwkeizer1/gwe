@@ -37,10 +37,9 @@ public class MonthUsageList  {
 	}
 
 	public void add(MonthUsage monthUsage) {
-		log.debug("Replace this dummy code for the actual saveNewMonthUsage code!!!");
 		log.debug("Saved NewMonthUsage: {}", monthUsage);
-//		observableMonthUsageList.add(monthUsage);
-//		monthUsageRepository.saveAll(observableMonthUsageList);
+		observableMonthUsageList.add(monthUsage);
+		monthUsageRepository.saveAll(observableMonthUsageList);
 	}
 	
 	public void addListener(ListChangeListener<MonthUsage> listener) {

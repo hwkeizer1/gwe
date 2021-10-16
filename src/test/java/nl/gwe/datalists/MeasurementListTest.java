@@ -51,7 +51,7 @@ class MeasurementListTest {
 	@Test
 	void testGetFirstMeasurement_HappyPath() {
 		Optional<Measurement> expected = Optional.of(testData.getMeasurement(1L, testData.getRefDate().minusDays(100),
-				testData.getRefDate().minusDays(80), 10));
+				testData.getRefDate().minusDays(80), 10F));
 		assertEquals(expected, measurementList.getFirstMeasurement());
 	}
 
@@ -78,7 +78,7 @@ class MeasurementListTest {
 	@Test
 	void testGetLastMeasurement_HappyPath() {
 		Optional<Measurement> expected = Optional
-				.of(testData.getMeasurement(4L, testData.getRefDate().minusDays(40), null, 40));
+				.of(testData.getMeasurement(4L, testData.getRefDate().minusDays(40), null, 40F));
 		assertEquals(expected, measurementList.getLastMeasurement());
 	}
 
@@ -107,14 +107,14 @@ class MeasurementListTest {
 		assertEquals(expected, measurementList.getFirstMeasurementOfMonth(YearMonth.of(2021, 5)));
 
 		expected = Optional.of(testData.getMeasurement(1L, testData.getRefDate().minusDays(100),
-				testData.getRefDate().minusDays(80), 10));
+				testData.getRefDate().minusDays(80), 10F));
 		assertEquals(expected, measurementList.getFirstMeasurementOfMonth(YearMonth.of(2021, 6)));
 
 		expected = Optional.of(testData.getMeasurement(3L, testData.getRefDate().minusDays(60),
-				testData.getRefDate().minusDays(40), 30));
+				testData.getRefDate().minusDays(40), 30F));
 		assertEquals(expected, measurementList.getFirstMeasurementOfMonth(YearMonth.of(2021, 7)));
 
-		expected = Optional.of(testData.getMeasurement(4L, testData.getRefDate().minusDays(40), null, 40));
+		expected = Optional.of(testData.getMeasurement(4L, testData.getRefDate().minusDays(40), null, 40F));
 		assertEquals(expected, measurementList.getFirstMeasurementOfMonth(YearMonth.of(2021, 8)));
 
 		expected = Optional.empty();
@@ -127,14 +127,14 @@ class MeasurementListTest {
 		assertEquals(expected, measurementList.getLastMeasurementOfMonth(YearMonth.of(2021, 5)));
 
 		expected = Optional.of(testData.getMeasurement(2L, testData.getRefDate().minusDays(80),
-				testData.getRefDate().minusDays(60), 20));
+				testData.getRefDate().minusDays(60), 20F));
 		assertEquals(expected, measurementList.getLastMeasurementOfMonth(YearMonth.of(2021, 6)));
 
 		expected = Optional.of(testData.getMeasurement(3L, testData.getRefDate().minusDays(60),
-				testData.getRefDate().minusDays(40), 30));
+				testData.getRefDate().minusDays(40), 30F));
 		assertEquals(expected, measurementList.getLastMeasurementOfMonth(YearMonth.of(2021, 7)));
 
-		expected = Optional.of(testData.getMeasurement(4L, testData.getRefDate().minusDays(40), null, 40));
+		expected = Optional.of(testData.getMeasurement(4L, testData.getRefDate().minusDays(40), null, 40F));
 		assertEquals(expected, measurementList.getLastMeasurementOfMonth(YearMonth.of(2021, 8)));
 
 		expected = Optional.empty();
@@ -147,18 +147,18 @@ class MeasurementListTest {
 		assertEquals(expectedList, measurementList.getAllMeasurementOfMonth(YearMonth.of(2021, 5)));
 		
 		expectedList.add(testData.getMeasurement(1L, testData.getRefDate().minusDays(100),
-				testData.getRefDate().minusDays(80), 10));
+				testData.getRefDate().minusDays(80), 10F));
 		expectedList.add(testData.getMeasurement(2L, testData.getRefDate().minusDays(80),
-				testData.getRefDate().minusDays(60), 20));
+				testData.getRefDate().minusDays(60), 20F));
 		assertEquals(expectedList, measurementList.getAllMeasurementOfMonth(YearMonth.of(2021, 6)));
 		
 		expectedList.clear();
 		expectedList.add(testData.getMeasurement(3L, testData.getRefDate().minusDays(60),
-				testData.getRefDate().minusDays(40), 30));
+				testData.getRefDate().minusDays(40), 30F));
 		assertEquals(expectedList, measurementList.getAllMeasurementOfMonth(YearMonth.of(2021, 7)));
 		
 		expectedList.clear();
-		expectedList.add(testData.getMeasurement(4L, testData.getRefDate().minusDays(40), null, 40));
+		expectedList.add(testData.getMeasurement(4L, testData.getRefDate().minusDays(40), null, 40F));
 		assertEquals(expectedList, measurementList.getAllMeasurementOfMonth(YearMonth.of(2021, 8)));
 		
 		expectedList.clear();

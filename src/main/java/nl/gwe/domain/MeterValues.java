@@ -17,17 +17,17 @@ public class MeterValues {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private int lowElectricityPurchased;
+	private float lowElectricityPurchased;
 	
-	private int lowElectricityDelivered;
+	private float lowElectricityDelivered;
 	
-	private int highElectricityPurchased;
+	private float highElectricityPurchased;
 	
-	private int highElectricityDelivered;
+	private float highElectricityDelivered;
 	
-	private int gasPurchased;
+	private float gasPurchased;
 	
-	private int waterPurchased;
+	private float waterPurchased;
 
 	private MeterValues(Builder builder) {
 		this.lowElectricityPurchased = builder.lowElectricityPurchased;
@@ -40,44 +40,44 @@ public class MeterValues {
 	
 	public static class Builder {
 		
-		private int lowElectricityPurchased;
+		private float lowElectricityPurchased;
 		
-		private int lowElectricityDelivered;
+		private float lowElectricityDelivered;
 		
-		private int highElectricityPurchased;
+		private float highElectricityPurchased;
 		
-		private int highElectricityDelivered;
+		private float highElectricityDelivered;
 		
-		private int gasPurchased;
+		private float gasPurchased;
 		
-		private int waterPurchased;
+		private float waterPurchased;
 
-		public Builder setLowElectricityPurchased(int lowElectricityPurchased) {
+		public Builder setLowElectricityPurchased(float lowElectricityPurchased) {
 			this.lowElectricityPurchased = lowElectricityPurchased;
 			return this;
 		}
 		
-		public Builder setLowElectricityDelivered(int lowElectricityDelivered) {
+		public Builder setLowElectricityDelivered(float lowElectricityDelivered) {
 			this.lowElectricityDelivered = lowElectricityDelivered;
 			return this;
 		}
 		
-		public Builder setHighElectricityPurchased(int highElectricityPurchased) {
+		public Builder setHighElectricityPurchased(float highElectricityPurchased) {
 			this.highElectricityPurchased = highElectricityPurchased;
 			return this;
 		}
 		
-		public Builder setHighElectricityDelivered(int highElectricityDelivered) {
+		public Builder setHighElectricityDelivered(float highElectricityDelivered) {
 			this.highElectricityDelivered = highElectricityDelivered;
 			return this;
 		}
 		
-		public Builder setGasPurchased(int gasPurchased) {
+		public Builder setGasPurchased(float gasPurchased) {
 			this.gasPurchased = gasPurchased;
 			return this;
 		}
 		
-		public Builder setWaterPurchased(int waterPurchased) {
+		public Builder setWaterPurchased(float waterPurchased) {
 			this.waterPurchased = waterPurchased;
 			return this;
 		}

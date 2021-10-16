@@ -23,23 +23,24 @@ public class TestData {
 	
 	public ObservableList<Measurement> getOrderedMeasurementList() {
 		List<Measurement> measurements = new ArrayList<>();
-		measurements.add(getMeasurement(1L, refDate.minusDays(100), refDate.minusDays(80), 10)); //2021-06-07
-		measurements.add(getMeasurement(2L, refDate.minusDays(80), refDate.minusDays(60), 20)); //2021-06-27
-		measurements.add(getMeasurement(3L, refDate.minusDays(60), refDate.minusDays(40), 30));	//2021-07-17
-		measurements.add(getMeasurement(4L, refDate.minusDays(40), null, 40)); //2021-08-06
+		measurements.add(getMeasurement(1L, refDate.minusDays(100), refDate.minusDays(80), 10F)); //2021-06-07
+		measurements.add(getMeasurement(2L, refDate.minusDays(80), refDate.minusDays(60), 20F)); //2021-06-27
+		measurements.add(getMeasurement(3L, refDate.minusDays(60), refDate.minusDays(40), 30F));	//2021-07-17
+		measurements.add(getMeasurement(4L, refDate.minusDays(40), null, 40F)); //2021-08-06
 		return FXCollections.observableList(measurements);
 	}
 	
-	public Measurement getMeasurement(Long id, LocalDate startDate, LocalDate endDate, int values) {
+	public Measurement getMeasurement(Long id, LocalDate startDate, LocalDate endDate, Float values) {
 		Measurement measurement = new Measurement();
 		measurement.setId(id);
 		measurement.setStartDate(startDate);
 		measurement.setEndDate(endDate);
 		measurement.setMeterValues(getMeterValues(id, values));
+		measurement.setUsages(getMeterValues(id + 1000, values));
 		return measurement;
 	}
 	
-	public MeterValues getMeterValues(Long id, int value) {
+	public MeterValues getMeterValues(Long id, Float value) {
 		MeterValues meterValue =  new MeterValues.Builder()
 				.setHighElectricityDelivered(value)
 				.setHighElectricityPurchased(value)

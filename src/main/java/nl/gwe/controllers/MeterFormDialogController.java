@@ -69,12 +69,12 @@ public class MeterFormDialogController {
 		this.stage = new Stage();
 		stage.setScene(new Scene(anchorPane));
 		stage.setTitle("Meterstanden invullen");
-		lowElectricityPurchasedField.setTextFormatter(new TextFormatter<>(integerFilter));
-		lowElectricityDeliveredField.setTextFormatter(new TextFormatter<>(integerFilter));
-		highElectricityPurchasedField.setTextFormatter(new TextFormatter<>(integerFilter));
-		highElectricityDeliveredField.setTextFormatter(new TextFormatter<>(integerFilter));
-		gasPurchasedField.setTextFormatter(new TextFormatter<>(integerFilter));
-		waterPurchasedField.setTextFormatter(new TextFormatter<>(integerFilter));
+		lowElectricityPurchasedField.setTextFormatter(new TextFormatter<>(electricityFilter));
+		lowElectricityDeliveredField.setTextFormatter(new TextFormatter<>(electricityFilter));
+		highElectricityPurchasedField.setTextFormatter(new TextFormatter<>(electricityFilter));
+		highElectricityDeliveredField.setTextFormatter(new TextFormatter<>(electricityFilter));
+		gasPurchasedField.setTextFormatter(new TextFormatter<>(gasAndWaterFilter));
+		waterPurchasedField.setTextFormatter(new TextFormatter<>(gasAndWaterFilter));
 		lowElectricityPurchasedField.requestFocus();
 	}
 
@@ -87,12 +87,12 @@ public class MeterFormDialogController {
 	@FXML
 	public void okButtonAction() {
 		MeterValues meterReading = new MeterValues.Builder()
-				.setLowElectricityPurchased(Integer.parseInt(lowElectricityPurchasedField.getText()))
-				.setLowElectricityDelivered(Integer.parseInt(lowElectricityDeliveredField.getText()))
-				.setHighElectricityPurchased(Integer.parseInt(highElectricityPurchasedField.getText()))
-				.setHighElectricityDelivered(Integer.parseInt(highElectricityDeliveredField.getText()))
-				.setGasPurchased(Integer.parseInt(gasPurchasedField.getText()))
-				.setWaterPurchased(Integer.parseInt(waterPurchasedField.getText()))
+				.setLowElectricityPurchased(Float.parseFloat(lowElectricityPurchasedField.getText()))
+				.setLowElectricityDelivered(Float.parseFloat(lowElectricityDeliveredField.getText()))
+				.setHighElectricityPurchased(Float.parseFloat(highElectricityPurchasedField.getText()))
+				.setHighElectricityDelivered(Float.parseFloat(highElectricityDeliveredField.getText()))
+				.setGasPurchased(Float.parseFloat(gasPurchasedField.getText()))
+				.setWaterPurchased(Float.parseFloat(waterPurchasedField.getText()))
 				.build();
 		measurementService.submit(dateField.getValue(), meterReading);
 		stage.close();
@@ -103,9 +103,17 @@ public class MeterFormDialogController {
 		stage.close();
 	}
 	
-	UnaryOperator<Change> integerFilter = change -> {
+	UnaryOperator<Change> electricityFilter = change -> {
 		String input = change.getControlNewText();
 		if (input.matches("([1-9][0-9]*)?")) {
+			return change;
+		}
+		return null;
+	};
+	
+	UnaryOperator<Change> gasAndWaterFilter = change -> {
+		String input = change.getControlNewText();
+		if (input.matches("([0-9]*)(\\.\\d{0,3})?")) {
 			return change;
 		}
 		return null;
