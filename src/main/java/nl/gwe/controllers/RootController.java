@@ -14,6 +14,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 import nl.gwe.view.MeasurementTableView;
 import nl.gwe.view.UsageChartView;
 import nl.gwe.view.MeasurementUsageTableView;
+import nl.gwe.view.MonthUsageTableView;
 
 @Controller
 @FxmlView("root.fxml")
@@ -21,20 +22,24 @@ public class RootController implements Initializable {
 	
 	private final FxWeaver fxWeaver;
 	private final MeasurementTableView measurementTableView;
-	private final MeasurementUsageTableView usageTableView;
+	private final MeasurementUsageTableView measurementUsageTableView;
+	private final MonthUsageTableView monthUsageTableView;
 	private final UsageChartView usageChartView;
+	
 	
 	@FXML
 	private BorderPane rootWindow;
 	
 	public RootController(FxWeaver fxWeaver, 
 			MeasurementTableView measurementTableView, 
-			MeasurementUsageTableView usageTableView,
-			UsageChartView usageChartView) {
+			MeasurementUsageTableView measurementUsageTableView,
+			UsageChartView usageChartView,
+			MonthUsageTableView monthUsageTableView) {
 		this.fxWeaver = fxWeaver;
 		this.measurementTableView = measurementTableView;
-		this.usageTableView = usageTableView;
+		this.measurementUsageTableView = measurementUsageTableView;
 		this.usageChartView = usageChartView;
+		this.monthUsageTableView = monthUsageTableView;
 	}
 	
 	@Override
@@ -79,8 +84,13 @@ public class RootController implements Initializable {
 	}
 	
 	@FXML
-	public void showUsageTableView(ActionEvent actionEvent) {
-		rootWindow.setCenter(usageTableView.getTableView());
+	public void showMeasurementUsageTableView(ActionEvent actionEvent) {
+		rootWindow.setCenter(measurementUsageTableView.getTableView());
+	}
+	
+	@FXML
+	public void showMonthUsageTableView(ActionEvent actionEvent) {
+		rootWindow.setCenter(monthUsageTableView.getTableView());
 	}
 
 }

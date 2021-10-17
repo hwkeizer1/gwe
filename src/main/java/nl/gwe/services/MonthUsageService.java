@@ -1,5 +1,6 @@
 package nl.gwe.services;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
@@ -10,6 +11,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
 import nl.gwe.datalists.MeasurementList;
 import nl.gwe.datalists.MonthUsageList;
@@ -30,14 +32,18 @@ public class MonthUsageService implements ListChangeListener<Measurement> {
 		this.measurementList.addListener(this);
 	}
 
+	public ObservableList<MonthUsage> getReadOnlyMonthUsageList() {
+		return monthUsageList.getReadOnlyMonthUsageList();
+	}
+	
 	@Override
 	public void onChanged(Change<? extends Measurement> c) {
 		Optional<LocalDate> lastMeasurementDate = measurementList.getLastMeasurementDate();
 		Optional<YearMonth> lastMonthUsageYearMonth = getLastMonthUsageYearMonth();
-		if (lastMeasurementDate.isPresent() && lastMonthUsageYearMonth.isPresent()) {
-			if (lastMonthUsageYearMonth.get().atEndOfMonth().plusMonths(1).isBefore(lastMeasurementDate.get())) {
-				monthUsageList.add(calculateNewMonthUsage(lastMonthUsageYearMonth.get()));
-			}
+		if (lastMeasurementDate.isPresent() && lastMonthUsageYearMonth.isPresent()
+				&& lastMonthUsageYearMonth.get().atEndOfMonth().plusMonths(1).isBefore(lastMeasurementDate.get())) {
+			monthUsageList.add(calculateNewMonthUsage(lastMonthUsageYearMonth.get()));
+
 		}
 	}
 
