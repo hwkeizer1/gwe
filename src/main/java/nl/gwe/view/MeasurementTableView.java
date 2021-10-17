@@ -46,52 +46,18 @@ public class MeasurementTableView {
 		colGas.prefWidthProperty().bind(table.widthProperty().multiply(0.09));
 		colWater.prefWidthProperty().bind(table.widthProperty().multiply(0.09));
 
-		colDate.setCellValueFactory(
-				new Callback<CellDataFeatures<Measurement, LocalDate>, ObservableValue<LocalDate>>() {
-					public ObservableValue<LocalDate> call(CellDataFeatures<Measurement, LocalDate> p) {
-						return new ReadOnlyObjectWrapper<>(p.getValue().getStartDate());
-					}
-				});
-
-		colLowElectricityPurchased
-				.setCellValueFactory(new Callback<CellDataFeatures<Measurement, Float>, ObservableValue<Float>>() {
-					public ObservableValue<Float> call(CellDataFeatures<Measurement, Float> p) {
-						return new ReadOnlyObjectWrapper<>(p.getValue().getMeterValues().getLowElectricityPurchased());
-					}
-				});
-
-		colLowElectricityDelivered
-				.setCellValueFactory(new Callback<CellDataFeatures<Measurement, Float>, ObservableValue<Float>>() {
-					public ObservableValue<Float> call(CellDataFeatures<Measurement, Float> p) {
-						return new ReadOnlyObjectWrapper<>(p.getValue().getMeterValues().getLowElectricityDelivered());
-					}
-				});
-
-		colHighElectricityPurchased
-				.setCellValueFactory(new Callback<CellDataFeatures<Measurement, Float>, ObservableValue<Float>>() {
-					public ObservableValue<Float> call(CellDataFeatures<Measurement, Float> p) {
-						return new ReadOnlyObjectWrapper<>(p.getValue().getMeterValues().getHighElectricityPurchased());
-					}
-				});
-
-		colHighElectricityDelivered
-				.setCellValueFactory(new Callback<CellDataFeatures<Measurement, Float>, ObservableValue<Float>>() {
-					public ObservableValue<Float> call(CellDataFeatures<Measurement, Float> p) {
-						return new ReadOnlyObjectWrapper<>(p.getValue().getMeterValues().getHighElectricityDelivered());
-					}
-				});
-
-		colGas.setCellValueFactory(new Callback<CellDataFeatures<Measurement, Float>, ObservableValue<Float>>() {
-			public ObservableValue<Float> call(CellDataFeatures<Measurement, Float> p) {
-				return new ReadOnlyObjectWrapper<>(p.getValue().getMeterValues().getGasPurchased());
-			}
-		});
-
-		colWater.setCellValueFactory(new Callback<CellDataFeatures<Measurement, Float>, ObservableValue<Float>>() {
-			public ObservableValue<Float> call(CellDataFeatures<Measurement, Float> p) {
-				return new ReadOnlyObjectWrapper<>(p.getValue().getMeterValues().getWaterPurchased());
-			}
-		});
+		colDate.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getStartDate()));
+		colLowElectricityPurchased.setCellValueFactory(
+				p -> new ReadOnlyObjectWrapper<>(p.getValue().getMeterValues().getLowElectricityPurchased()));
+		colLowElectricityDelivered.setCellValueFactory(
+				p -> new ReadOnlyObjectWrapper<>(p.getValue().getMeterValues().getLowElectricityDelivered()));
+		colHighElectricityPurchased.setCellValueFactory(
+				p -> new ReadOnlyObjectWrapper<>(p.getValue().getMeterValues().getHighElectricityPurchased()));
+		colHighElectricityDelivered.setCellValueFactory(
+				p -> new ReadOnlyObjectWrapper<>(p.getValue().getMeterValues().getHighElectricityDelivered()));
+		colGas.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getMeterValues().getGasPurchased()));
+		colWater.setCellValueFactory(
+				p -> new ReadOnlyObjectWrapper<>(p.getValue().getMeterValues().getWaterPurchased()));
 
 		table.getColumns().add(colDate);
 		table.getColumns().add(colLowElectricityPurchased);

@@ -153,10 +153,6 @@ public class MonthUsageService implements ListChangeListener<Measurement> {
 		if (measurements.isEmpty())
 			throw new RuntimeException("Error getting the last measurement of month " + lastMonthUsage);
 		measurements.addAll(measurementList.getAllMeasurementOfMonth(lastMonthUsage.plusMonths(1)));
-		int count = measurements.size();
-		measurementList.getFirstMeasurementOfMonth(lastMonthUsage.plusMonths(2)).ifPresent(measurements::add);
-		if (measurements.size() != count + 1)
-			throw new RuntimeException("Error getting the first measurement of month " + lastMonthUsage.plusMonths(2));
 		return measurements;
 	}
 

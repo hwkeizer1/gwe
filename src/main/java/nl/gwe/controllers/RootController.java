@@ -13,7 +13,7 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import nl.gwe.view.MeasurementTableView;
 import nl.gwe.view.UsageChartView;
-import nl.gwe.view.UsageTableView;
+import nl.gwe.view.MeasurementUsageTableView;
 
 @Controller
 @FxmlView("root.fxml")
@@ -21,7 +21,7 @@ public class RootController implements Initializable {
 	
 	private final FxWeaver fxWeaver;
 	private final MeasurementTableView measurementTableView;
-	private final UsageTableView usageTableView;
+	private final MeasurementUsageTableView usageTableView;
 	private final UsageChartView usageChartView;
 	
 	@FXML
@@ -29,7 +29,7 @@ public class RootController implements Initializable {
 	
 	public RootController(FxWeaver fxWeaver, 
 			MeasurementTableView measurementTableView, 
-			UsageTableView usageTableView,
+			MeasurementUsageTableView usageTableView,
 			UsageChartView usageChartView) {
 		this.fxWeaver = fxWeaver;
 		this.measurementTableView = measurementTableView;
