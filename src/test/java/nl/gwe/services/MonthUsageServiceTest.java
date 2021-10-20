@@ -23,6 +23,7 @@ import nl.gwe.datalists.MeasurementList;
 import nl.gwe.datalists.MonthUsageList;
 import nl.gwe.domain.Measurement;
 import nl.gwe.domain.MeterValues;
+import nl.gwe.domain.MonthUsage;
 import nl.gwe.repositories.MeasurementRepository;
 import nl.gwe.repositories.MonthUsageRepository;
 import nl.gwe.util.TestData;

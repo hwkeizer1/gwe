@@ -8,11 +8,12 @@ import org.springframework.stereotype.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import nl.gwe.view.MeasurementTableView;
-import nl.gwe.view.UsageChartView;
+import nl.gwe.view.MonthUsageChartView;
 import nl.gwe.view.MeasurementUsageTableView;
 import nl.gwe.view.MonthUsageTableView;
 
@@ -24,7 +25,7 @@ public class RootController implements Initializable {
 	private final MeasurementTableView measurementTableView;
 	private final MeasurementUsageTableView measurementUsageTableView;
 	private final MonthUsageTableView monthUsageTableView;
-	private final UsageChartView usageChartView;
+	private final MonthUsageChartView usageChartView;
 	
 	
 	@FXML
@@ -33,7 +34,7 @@ public class RootController implements Initializable {
 	public RootController(FxWeaver fxWeaver, 
 			MeasurementTableView measurementTableView, 
 			MeasurementUsageTableView measurementUsageTableView,
-			UsageChartView usageChartView,
+			MonthUsageChartView usageChartView,
 			MonthUsageTableView monthUsageTableView) {
 		this.fxWeaver = fxWeaver;
 		this.measurementTableView = measurementTableView;

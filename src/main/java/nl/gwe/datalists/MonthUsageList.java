@@ -1,7 +1,9 @@
 package nl.gwe.datalists;
 
 import java.time.YearMonth;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -9,7 +11,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
-import nl.gwe.domain.Measurement;
 import nl.gwe.domain.MonthUsage;
 import nl.gwe.repositories.MonthUsageRepository;
 
@@ -35,6 +36,22 @@ public class MonthUsageList  {
 				.map(MonthUsage::getDate)
 				.max(YearMonth::compareTo));		
 	}
+	
+	public Optional<MonthUsage> getLastMonthUsageOfYear(Integer year) {
+		return observableMonthUsageList.stream()
+				.filter(m -> m.getDate().equals(YearMonth.of(year, 12))).findFirst();
+	}
+	
+	public Optional<MonthUsage> getFirstMonthUsageOfYear(Integer year) {
+		return observableMonthUsageList.stream()
+				.filter(m -> m.getDate().equals(YearMonth.of(year, 1))).findFirst();
+	}
+	
+	public List<MonthUsage> getAllMonthUsageOfYear(Integer year) {
+		return observableMonthUsageList.stream()
+				.filter(m -> m.getDate().getYear() == year).collect(Collectors.toList());
+	}
+	
 
 	public void add(MonthUsage monthUsage) {
 		log.debug("Saved NewMonthUsage: {}", monthUsage);

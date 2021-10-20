@@ -33,6 +33,6 @@ public class MonthUsage {
 
 	@Override
 	public String toString() {
-		return "MonthUsage [id=" + id + ", date=" + date + ", usages=" + usages + "]";
+		return "\nMonthUsage [id=" + id + ", date=" + date + ", usages=" + usages + "]";
 	}
 }

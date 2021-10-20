@@ -1,6 +1,5 @@
 package nl.gwe.services;
 
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
@@ -59,13 +58,9 @@ public class MonthUsageService implements ListChangeListener<Measurement> {
 		MeterValues meterValues = new MeterValues();
 		LocalDate firstDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonthValue(), 1);
 		LocalDate lastDay = yearMonth.atEndOfMonth();
-		log.debug("Calculating usages for month {} with first day {} and last day {}", yearMonth, firstDay, lastDay);
 		for (Measurement measurement: measurements) {
-			log.debug("\tProcessing measurement {}", measurement);
 			MeterValues monthUsagePart = calculateMeasurementMonthUsagePart(measurement, firstDay, lastDay);
-			log.debug("\tMonth usage part: {}", monthUsagePart);
 			meterValues = addMeterValues(meterValues, monthUsagePart);
-			log.debug("\tResulting metervalues: {}", meterValues);
 		}
 		return meterValues;
 	}
@@ -160,6 +155,30 @@ public class MonthUsageService implements ListChangeListener<Measurement> {
 			throw new RuntimeException("Error getting the last measurement of month " + lastMonthUsage);
 		measurements.addAll(measurementList.getAllMeasurementOfMonth(lastMonthUsage.plusMonths(1)));
 		return measurements;
+	}
+
+	public List<MonthUsage> getMonthUsagesOfYear(Integer year) {
+		List<MonthUsage> monthUsages = new ArrayList<>();
+		if (getLastMonthUsageOfYear(year - 1).isPresent()) {
+			monthUsages.add(getLastMonthUsageOfYear(year - 1).get());
+		}
+		monthUsages.addAll(getAllMonthUsageOfYear(year));
+		if (getFirstMonthUsageOfYear(year + 1).isPresent()) {
+			monthUsages.add(getFirstMonthUsageOfYear(year + 1).get());
+		}
+		return monthUsages;
+	}
+	
+	Optional<MonthUsage> getLastMonthUsageOfYear(Integer year) {
+		return monthUsageList.getLastMonthUsageOfYear(year);
+	}
+	
+	Optional<MonthUsage> getFirstMonthUsageOfYear(Integer year) {
+		return monthUsageList.getFirstMonthUsageOfYear(year);
+	}
+	
+	List<MonthUsage> getAllMonthUsageOfYear(Integer year) {
+		return monthUsageList.getAllMonthUsageOfYear(year);
 	}
 
 }
