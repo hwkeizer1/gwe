@@ -32,14 +32,16 @@ public class MonthUsageTableView {
 		TableColumn<MonthUsage, Float> colLowElectricityDelivered = new TableColumn<>("Elektra laag geleverd");
 		TableColumn<MonthUsage, Float> colHighElectricityPurchased = new TableColumn<>("Elektra hoog afgenomen");
 		TableColumn<MonthUsage, Float> colHighElectricityDelivered = new TableColumn<>("Elektra hoog geleverd");
+		TableColumn<MonthUsage, Float> colTotalElectricity = new TableColumn<>("Elektra totaal");
 		TableColumn<MonthUsage, Float> colGas = new TableColumn<>("Gas");
 		TableColumn<MonthUsage, Float> colWater = new TableColumn<>("Water");
 
-		colMonth.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
-		colLowElectricityPurchased.prefWidthProperty().bind(table.widthProperty().multiply(0.18));
-		colLowElectricityDelivered.prefWidthProperty().bind(table.widthProperty().multiply(0.18));
-		colHighElectricityPurchased.prefWidthProperty().bind(table.widthProperty().multiply(0.18));
-		colHighElectricityDelivered.prefWidthProperty().bind(table.widthProperty().multiply(0.18));
+		colMonth.prefWidthProperty().bind(table.widthProperty().multiply(0.08));
+		colLowElectricityPurchased.prefWidthProperty().bind(table.widthProperty().multiply(0.16));
+		colLowElectricityDelivered.prefWidthProperty().bind(table.widthProperty().multiply(0.16));
+		colHighElectricityPurchased.prefWidthProperty().bind(table.widthProperty().multiply(0.16));
+		colHighElectricityDelivered.prefWidthProperty().bind(table.widthProperty().multiply(0.16));
+		colTotalElectricity.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
 		colGas.prefWidthProperty().bind(table.widthProperty().multiply(0.09));
 		colWater.prefWidthProperty().bind(table.widthProperty().multiply(0.09));
 		
@@ -120,6 +122,28 @@ public class MonthUsageTableView {
 		        }
 		    }
 		});
+		
+		colTotalElectricity.setCellValueFactory(p -> {
+			if (p.getValue().getUsages() == null)
+				return null;
+			return new ReadOnlyObjectWrapper<>(p.getValue().getUsages().getLowElectricityPurchased() -
+					p.getValue().getUsages().getLowElectricityDelivered() +
+					p.getValue().getUsages().getHighElectricityPurchased() -
+					p.getValue().getUsages().getHighElectricityDelivered());
+		});
+		
+		colTotalElectricity.setCellFactory(tc -> new TableCell<MonthUsage, Float>() {
+
+		    @Override
+		    protected void updateItem(Float price, boolean empty) {
+		        super.updateItem(price, empty);
+		        if (empty) {
+		            setText(null);
+		        } else {
+		            setText(df.format(price));
+		        }
+		    }
+		});
 
 		colGas.setCellValueFactory(p -> {
 			if (p.getValue().getUsages() == null)
@@ -164,6 +188,7 @@ public class MonthUsageTableView {
 		table.getColumns().add(colLowElectricityDelivered);
 		table.getColumns().add(colHighElectricityPurchased);
 		table.getColumns().add(colHighElectricityDelivered);
+		table.getColumns().add(colTotalElectricity);
 		table.getColumns().add(colGas);
 		table.getColumns().add(colWater);
 

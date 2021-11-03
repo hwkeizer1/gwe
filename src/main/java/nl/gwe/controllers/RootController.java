@@ -8,14 +8,12 @@ import org.springframework.stereotype.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import nl.gwe.view.ChartControlPanel;
 import nl.gwe.view.MeasurementTableView;
 import nl.gwe.view.MonthUsageChartView;
-import nl.gwe.view.MeasurementUsageTableView;
 import nl.gwe.view.MonthUsageTableView;
 
 @Controller
@@ -24,7 +22,6 @@ public class RootController implements Initializable {
 	
 	private final FxWeaver fxWeaver;
 	private final MeasurementTableView measurementTableView;
-	private final MeasurementUsageTableView measurementUsageTableView;
 	private final MonthUsageTableView monthUsageTableView;
 	private final MonthUsageChartView monthUsageChartView;
 	private final ChartControlPanel chartControlPanel;
@@ -35,13 +32,11 @@ public class RootController implements Initializable {
 	
 	public RootController(FxWeaver fxWeaver, 
 			MeasurementTableView measurementTableView, 
-			MeasurementUsageTableView measurementUsageTableView,
 			MonthUsageChartView monthUsageChartView,
 			MonthUsageTableView monthUsageTableView,
 			ChartControlPanel chartControlPanel) {
 		this.fxWeaver = fxWeaver;
 		this.measurementTableView = measurementTableView;
-		this.measurementUsageTableView = measurementUsageTableView;
 		this.monthUsageChartView = monthUsageChartView;
 		this.monthUsageTableView = monthUsageTableView;
 		this.chartControlPanel = chartControlPanel;
@@ -49,7 +44,6 @@ public class RootController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -87,11 +81,6 @@ public class RootController implements Initializable {
 	@FXML
 	public void showMeasurementTableView(ActionEvent actionEvent) {
 		rootWindow.setCenter(measurementTableView.getTableView());
-	}
-	
-	@FXML
-	public void showMeasurementUsageTableView(ActionEvent actionEvent) {
-		rootWindow.setCenter(measurementUsageTableView.getTableView());
 	}
 	
 	@FXML
