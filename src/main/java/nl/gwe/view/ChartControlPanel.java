@@ -33,6 +33,7 @@ public class ChartControlPanel {
 	RadioButton radioLowElectricityDelivered;
 	RadioButton radioHighElectricityPurchased;
 	RadioButton radioHighElectricityDelivered;
+	RadioButton radioTotalElectricity;
 	RadioButton radioGasPurchased;
 	RadioButton radioWaterPurchased;
 
@@ -59,6 +60,7 @@ public class ChartControlPanel {
 		radioLowElectricityDelivered.setUserData(Meters.LOW_ELECTRICITY_DELIVERED);
 		radioHighElectricityPurchased.setUserData(Meters.HIGH_ELECTRICITY_PURCHASED);
 		radioHighElectricityDelivered.setUserData(Meters.HIGH_ELECTRICITY_DELIVERED);
+		radioTotalElectricity.setUserData(Meters.TOTAL_ELECTRICITY);
 		radioGasPurchased.setUserData(Meters.GAS_PURCHASED);
 		radioWaterPurchased.setUserData(Meters.WATER_PURCHASED);
 		Toggle toggle = meterGroup.getSelectedToggle();
@@ -75,6 +77,7 @@ public class ChartControlPanel {
 		radioLowElectricityDelivered = new RadioButton(Meters.LOW_ELECTRICITY_DELIVERED.name());
 		radioHighElectricityPurchased = new RadioButton(Meters.HIGH_ELECTRICITY_PURCHASED.name());
 		radioHighElectricityDelivered = new RadioButton(Meters.HIGH_ELECTRICITY_DELIVERED.name());
+		radioTotalElectricity = new RadioButton(Meters.TOTAL_ELECTRICITY.name());
 		radioGasPurchased = new RadioButton(Meters.GAS_PURCHASED.name());
 		radioGasPurchased.setSelected(true); // Default view
 		radioWaterPurchased = new RadioButton(Meters.WATER_PURCHASED.name());
@@ -83,6 +86,7 @@ public class ChartControlPanel {
 		radioLowElectricityDelivered.setToggleGroup(meterGroup);
 		radioHighElectricityPurchased.setToggleGroup(meterGroup);
 		radioHighElectricityDelivered.setToggleGroup(meterGroup);
+		radioTotalElectricity.setToggleGroup(meterGroup);
 		radioGasPurchased.setToggleGroup(meterGroup);
 		radioWaterPurchased.setToggleGroup(meterGroup);
 		
@@ -90,13 +94,15 @@ public class ChartControlPanel {
 		radioLowElectricityDelivered.setOnAction(this::setMeter);
 		radioHighElectricityPurchased.setOnAction(this::setMeter);
 		radioHighElectricityDelivered.setOnAction(this::setMeter);
+		radioTotalElectricity.setOnAction(this::setMeter);
 		radioGasPurchased.setOnAction(this::setMeter);
 		radioWaterPurchased.setOnAction(this::setMeter);
 		
 		VBox vbox1 = new VBox(radioLowElectricityPurchased,
 				radioLowElectricityDelivered,
 				radioHighElectricityPurchased,
-				radioHighElectricityDelivered
+				radioHighElectricityDelivered,
+				radioTotalElectricity
 				);
 		vbox1.setSpacing(10);
 		VBox vbox2 = new VBox(radioGasPurchased,

@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import javafx.scene.chart.Axis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -15,7 +14,6 @@ import nl.gwe.converters.IntegerToMonthConverter;
 import nl.gwe.datalists.ChartData;
 import nl.gwe.datalists.Meters;
 import nl.gwe.datalists.MonthUsageChartData;
-import nl.gwe.services.MonthUsageService;
 
 @Slf4j
 @Component
@@ -29,14 +27,11 @@ public class MonthUsageChartView {
 	NumberAxis xAxis;
 	NumberAxis yAxis;
 
-	private final MonthUsageService monthUsageService;
-
 	private final MonthUsageChartData monthUsageChartData;
 
 	IntegerToMonthConverter c = new IntegerToMonthConverter();
 
-	public MonthUsageChartView(MonthUsageService monthUsageService, MonthUsageChartData monthUsageChartData) {
-		this.monthUsageService = monthUsageService;
+	public MonthUsageChartView(MonthUsageChartData monthUsageChartData) {
 		this.monthUsageChartData = monthUsageChartData;
 
 		years = new ArrayList<>();
@@ -80,7 +75,7 @@ public class MonthUsageChartView {
 		lineChart.setTitle(meter.toString());
 		
 		for (Integer year : years) {
-			var<Integer, Integer> series = getYearSeries(year);
+			XYChart.Series<Number, Number> series = getYearSeries(year);
 			lineChart.getData().add(series);
 		}
 	}
@@ -91,9 +86,7 @@ public class MonthUsageChartView {
 		series.setName(year.toString());
 		List<ChartData> chartData = meters.get(meter);
 		for (ChartData data : chartData) {
-			log.debug("meter {}:{}", data.getMonth(), Math.round(data.getValue()));
-			series.getData().add(new XYChart.Data(data.getMonth(), Math.round(data.getValue())));
-			log.debug("dataset {}", series);
+			series.getData().add(new XYChart.Data<>(data.getMonth(), Math.round(data.getValue())));
 		}
 
 		return series;
@@ -107,40 +100,4 @@ public class MonthUsageChartView {
 //			lineChart.getData().add(series);
 //		}
 	}
-	
-	
-
-//	public LineChart<Integer, Integer> initUsageChart() {
-//
-//		var<Integer, Integer> data2019 = new XYChart.Series<Integer, Integer>();
-//		data2019.setName("2019");
-//
-//		data2019.getData().add(new XYChart.Data<>(0, 19));
-//		data2019.getData().add(new XYChart.Data<>(1, 25));
-//		data2019.getData().add(new XYChart.Data<>(2, 21));
-//		data2019.getData().add(new XYChart.Data<>(3, 15));
-//		data2019.getData().add(new XYChart.Data<>(4, 11));
-//		data2019.getData().add(new XYChart.Data<>(5, 3));
-//		data2019.getData().add(new XYChart.Data<>(6, 3));
-//		data2019.getData().add(new XYChart.Data<>(7, 6));
-//		data2019.getData().add(new XYChart.Data<>(8, 5));
-//		data2019.getData().add(new XYChart.Data<>(9, 5));
-//		data2019.getData().add(new XYChart.Data<>(10, 6));
-//		data2019.getData().add(new XYChart.Data<>(11, 7));
-//		data2019.getData().add(new XYChart.Data<>(12, 11));
-//		data2019.getData().add(new XYChart.Data<>(13, 15));
-//
-//		lineChart.getData().add(data2019);
-//
-//		Integer year = 2020;
-//		var<Integer, Integer> dataSet = new XYChart.Series<Integer, Integer>();
-//		dataSet.setName(year.toString());
-//
-//		// Test part
-//		dataSet = getDataForYear(year);
-//
-////        lineChart.getData().add(dataSet);
-//
-//		return lineChart;
-//	}
 }
