@@ -73,14 +73,14 @@ public class ChartControlPanel {
 	}
 	
 	private HBox createMeterToggleGroupBox() {
-		radioLowElectricityPurchased = new RadioButton(Meters.LOW_ELECTRICITY_PURCHASED.name());
-		radioLowElectricityDelivered = new RadioButton(Meters.LOW_ELECTRICITY_DELIVERED.name());
-		radioHighElectricityPurchased = new RadioButton(Meters.HIGH_ELECTRICITY_PURCHASED.name());
-		radioHighElectricityDelivered = new RadioButton(Meters.HIGH_ELECTRICITY_DELIVERED.name());
-		radioTotalElectricity = new RadioButton(Meters.TOTAL_ELECTRICITY.name());
-		radioGasPurchased = new RadioButton(Meters.GAS_PURCHASED.name());
+		radioLowElectricityPurchased = new RadioButton(Meters.LOW_ELECTRICITY_PURCHASED.nlName());
+		radioLowElectricityDelivered = new RadioButton(Meters.LOW_ELECTRICITY_DELIVERED.nlName());
+		radioHighElectricityPurchased = new RadioButton(Meters.HIGH_ELECTRICITY_PURCHASED.nlName());
+		radioHighElectricityDelivered = new RadioButton(Meters.HIGH_ELECTRICITY_DELIVERED.nlName());
+		radioTotalElectricity = new RadioButton(Meters.TOTAL_ELECTRICITY.nlName());
+		radioGasPurchased = new RadioButton(Meters.GAS_PURCHASED.nlName());
 		radioGasPurchased.setSelected(true); // Default view
-		radioWaterPurchased = new RadioButton(Meters.WATER_PURCHASED.name());
+		radioWaterPurchased = new RadioButton(Meters.WATER_PURCHASED.nlName());
 		
 		radioLowElectricityPurchased.setToggleGroup(meterGroup);
 		radioLowElectricityDelivered.setToggleGroup(meterGroup);
@@ -101,11 +101,11 @@ public class ChartControlPanel {
 		VBox vbox1 = new VBox(radioLowElectricityPurchased,
 				radioLowElectricityDelivered,
 				radioHighElectricityPurchased,
-				radioHighElectricityDelivered,
-				radioTotalElectricity
+				radioHighElectricityDelivered
 				);
 		vbox1.setSpacing(10);
-		VBox vbox2 = new VBox(radioGasPurchased,
+		VBox vbox2 = new VBox(radioTotalElectricity,
+				radioGasPurchased,
 				radioWaterPurchased);
 		vbox2.setSpacing(10);
 		HBox hbox = new HBox(vbox1, vbox2);

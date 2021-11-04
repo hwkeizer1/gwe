@@ -9,6 +9,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import nl.gwe.datalists.Meters;
 import nl.gwe.domain.MonthUsage;
 import nl.gwe.services.MonthUsageService;
 
@@ -28,13 +29,13 @@ public class MonthUsageTableView {
 		table.setItems(this.monthUsageService.getReadOnlyMonthUsageList());
 
 		TableColumn<MonthUsage, String> colMonth = new TableColumn<>("Maand");
-		TableColumn<MonthUsage, Float> colLowElectricityPurchased = new TableColumn<>("Elektra laag afgenomen");
-		TableColumn<MonthUsage, Float> colLowElectricityDelivered = new TableColumn<>("Elektra laag geleverd");
-		TableColumn<MonthUsage, Float> colHighElectricityPurchased = new TableColumn<>("Elektra hoog afgenomen");
-		TableColumn<MonthUsage, Float> colHighElectricityDelivered = new TableColumn<>("Elektra hoog geleverd");
-		TableColumn<MonthUsage, Float> colTotalElectricity = new TableColumn<>("Elektra totaal");
-		TableColumn<MonthUsage, Float> colGas = new TableColumn<>("Gas");
-		TableColumn<MonthUsage, Float> colWater = new TableColumn<>("Water");
+		TableColumn<MonthUsage, Float> colLowElectricityPurchased = new TableColumn<>(Meters.LOW_ELECTRICITY_PURCHASED.nlName());
+		TableColumn<MonthUsage, Float> colLowElectricityDelivered = new TableColumn<>(Meters.LOW_ELECTRICITY_DELIVERED.nlName());
+		TableColumn<MonthUsage, Float> colHighElectricityPurchased = new TableColumn<>(Meters.HIGH_ELECTRICITY_PURCHASED.nlName());
+		TableColumn<MonthUsage, Float> colHighElectricityDelivered = new TableColumn<>(Meters.HIGH_ELECTRICITY_DELIVERED.nlName());
+		TableColumn<MonthUsage, Float> colTotalElectricity = new TableColumn<>(Meters.TOTAL_ELECTRICITY.nlName());
+		TableColumn<MonthUsage, Float> colGas = new TableColumn<>(Meters.GAS_PURCHASED.nlName());
+		TableColumn<MonthUsage, Float> colWater = new TableColumn<>(Meters.WATER_PURCHASED.nlName());
 
 		colMonth.prefWidthProperty().bind(table.widthProperty().multiply(0.08));
 		colLowElectricityPurchased.prefWidthProperty().bind(table.widthProperty().multiply(0.16));

@@ -71,8 +71,8 @@ public class MonthUsageChartView {
 
 	public void createChartData() {
 		lineChart = new LineChart<>(xAxis, yAxis);
-		yAxis.setLabel(meter.toString());
-		lineChart.setTitle(meter.toString());
+		yAxis.setLabel(meter.nlName() + " " + meter.unit());
+		lineChart.setTitle(meter.nlName());
 		
 		for (Integer year : years) {
 			XYChart.Series<Number, Number> series = getYearSeries(year);

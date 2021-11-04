@@ -13,6 +13,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import lombok.extern.slf4j.Slf4j;
+import nl.gwe.datalists.Meters;
 import nl.gwe.domain.Measurement;
 import nl.gwe.services.MeasurementService;
 
@@ -31,20 +32,20 @@ public class MeasurementTableView {
 		table.setItems(this.measurementService.getReadOnlyMeasurementList());
 
 		TableColumn<Measurement, LocalDate> colDate = new TableColumn<>("Datum");
-		TableColumn<Measurement, Float> colLowElectricityPurchased = new TableColumn<>("Elektra laag afgenomen");
-		TableColumn<Measurement, Float> colLowElectricityDelivered = new TableColumn<>("Elektra laag geleverd");
-		TableColumn<Measurement, Float> colHighElectricityPurchased = new TableColumn<>("Elektra hoog afgenomen");
-		TableColumn<Measurement, Float> colHighElectricityDelivered = new TableColumn<>("Elektra hoog geleverd");
-		TableColumn<Measurement, Float> colGas = new TableColumn<>("Gas");
-		TableColumn<Measurement, Float> colWater = new TableColumn<>("Water");
+		TableColumn<Measurement, Float> colLowElectricityPurchased = new TableColumn<>(Meters.LOW_ELECTRICITY_PURCHASED.nlName());
+		TableColumn<Measurement, Float> colLowElectricityDelivered = new TableColumn<>(Meters.LOW_ELECTRICITY_DELIVERED.nlName());
+		TableColumn<Measurement, Float> colHighElectricityPurchased = new TableColumn<>(Meters.HIGH_ELECTRICITY_PURCHASED.nlName());
+		TableColumn<Measurement, Float> colHighElectricityDelivered = new TableColumn<>(Meters.HIGH_ELECTRICITY_DELIVERED.nlName());
+		TableColumn<Measurement, Float> colGas = new TableColumn<>(Meters.GAS_PURCHASED.nlName());
+		TableColumn<Measurement, Float> colWater = new TableColumn<>(Meters.WATER_PURCHASED.nlName());
 
 		colDate.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
 		colLowElectricityPurchased.prefWidthProperty().bind(table.widthProperty().multiply(0.18));
 		colLowElectricityDelivered.prefWidthProperty().bind(table.widthProperty().multiply(0.18));
 		colHighElectricityPurchased.prefWidthProperty().bind(table.widthProperty().multiply(0.18));
-		colHighElectricityDelivered.prefWidthProperty().bind(table.widthProperty().multiply(0.18));
-		colGas.prefWidthProperty().bind(table.widthProperty().multiply(0.09));
-		colWater.prefWidthProperty().bind(table.widthProperty().multiply(0.09));
+		colHighElectricityDelivered.prefWidthProperty().bind(table.widthProperty().multiply(0.2));
+		colGas.prefWidthProperty().bind(table.widthProperty().multiply(0.08));
+		colWater.prefWidthProperty().bind(table.widthProperty().multiply(0.08));
 
 		colDate.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getStartDate()));
 		colLowElectricityPurchased.setCellValueFactory(
