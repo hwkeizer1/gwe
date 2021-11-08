@@ -82,11 +82,11 @@ public class MonthUsageChartView {
 	
 	private XYChart.Series<Number, Number> getYearSeries(Integer year) {
 		EnumMap<Meters, List<ChartData>> meters = monthUsageChartData.getChartDataForYear(year);
-		XYChart.Series<Number, Number> series = new XYChart.Series<>(); 
+		XYChart.Series<Number, Number> series = new XYChart.Series<>();
 		series.setName(year.toString());
 		List<ChartData> chartData = meters.get(meter);
 		for (ChartData data : chartData) {
-			series.getData().add(new XYChart.Data<>(data.getMonth(), Math.round(data.getValue())));
+			series.getData().add(new XYChart.Data<>(data.getMonth(), data.getValue()));
 		}
 
 		return series;
