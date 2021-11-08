@@ -39,10 +39,10 @@ public class MonthUsageService implements ListChangeListener<Measurement> {
 	public void onChanged(Change<? extends Measurement> c) {
 		Optional<LocalDate> lastMeasurementDate = measurementList.getLastMeasurementDate();
 		Optional<YearMonth> lastMonthUsageYearMonth = getLastMonthUsageYearMonth();
-		if (lastMeasurementDate.isPresent() && lastMonthUsageYearMonth.isPresent()
+		while (lastMeasurementDate.isPresent() && lastMonthUsageYearMonth.isPresent()
 				&& lastMonthUsageYearMonth.get().atEndOfMonth().plusMonths(1).isBefore(lastMeasurementDate.get())) {
 			monthUsageList.add(calculateNewMonthUsage(lastMonthUsageYearMonth.get()));
-
+			lastMonthUsageYearMonth = getLastMonthUsageYearMonth();
 		}
 	}
 
@@ -151,8 +151,13 @@ public class MonthUsageService implements ListChangeListener<Measurement> {
 	public List<Measurement> getMeasurementsForLastMonthCalculation(YearMonth lastMonthUsage) {
 		List<Measurement> measurements = new ArrayList<>();
 		measurementList.getLastMeasurementOfMonth(lastMonthUsage).ifPresent(measurements::add);
-		if (measurements.isEmpty())
-			throw new RuntimeException("Error getting the last measurement of month " + lastMonthUsage);
+		int count = 0;
+		while (measurements.isEmpty()) {
+			measurementList.getLastMeasurementOfMonth(lastMonthUsage.minusMonths(++count)).ifPresent(measurements::add);
+			if (count == 12) {
+				throw new RuntimeException("To much data between measurements, please provide more data");
+			}
+		}
 		measurements.addAll(measurementList.getAllMeasurementOfMonth(lastMonthUsage.plusMonths(1)));
 		return measurements;
 	}
