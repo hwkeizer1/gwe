@@ -1,6 +1,7 @@
 package nl.gwe.datalists;
 
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ public class MonthUsageList  {
 
 	private ObservableList<MonthUsage> observableMonthUsageList;
 
-	public MonthUsageList(MeasurementList measurementlist, MonthUsageRepository monthUsageRepository) {
+	public MonthUsageList(MonthUsageRepository monthUsageRepository) {
 		this.monthUsageRepository = monthUsageRepository;
 		this.observableMonthUsageList = FXCollections.observableList(monthUsageRepository.findAll());
 	}
@@ -31,6 +32,11 @@ public class MonthUsageList  {
 		return FXCollections.unmodifiableObservableList(observableMonthUsageList);
 	}
 	
+	public Optional<YearMonth> getFirstMonthUsageYearMonth() {
+		return (monthUsageRepository.findAll().stream()
+				.map(MonthUsage::getDate)
+				.findFirst());
+	}
 	public Optional<YearMonth> getLastMonthUsageYearMonth() {
 		return (monthUsageRepository.findAll().stream()
 				.map(MonthUsage::getDate)
@@ -50,6 +56,19 @@ public class MonthUsageList  {
 	public List<MonthUsage> getAllMonthUsageOfYear(Integer year) {
 		return observableMonthUsageList.stream()
 				.filter(m -> m.getDate().getYear() == year).collect(Collectors.toList());
+	}
+	
+	public List<Integer> getYears() {
+		List<Integer> years = new ArrayList<>();
+		if (getFirstMonthUsageYearMonth().isPresent() && getLastMonthUsageYearMonth().isPresent()) {
+			Integer startYear = getFirstMonthUsageYearMonth().get().getYear();
+			Integer endYear = getLastMonthUsageYearMonth().get().getYear();
+			
+			for (int i = startYear; i <= endYear; i++ ) {
+				years.add(i);
+			}
+		}
+		return years;
 	}
 	
 

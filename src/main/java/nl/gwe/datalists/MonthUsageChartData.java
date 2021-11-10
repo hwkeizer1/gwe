@@ -59,6 +59,10 @@ public class MonthUsageChartData {
 		return meterData;
 	}
 	
+	public List<Integer> getYears() {
+		return monthUsageList.getYears();
+	}
+	
 	
 	/**
 	 * Map each monthUsage to the correct month index

@@ -5,14 +5,11 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
 import nl.gwe.datalists.MeasurementList;
 import nl.gwe.domain.Measurement;
 import nl.gwe.domain.MeterValues;
-import nl.gwe.repositories.MeasurementRepository;
 
 @Slf4j
 @Service

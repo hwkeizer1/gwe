@@ -11,7 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
-import nl.gwe.view.ChartControlPanel;
+import nl.gwe.view.ChartControlPanelView;
 import nl.gwe.view.MeasurementTableView;
 import nl.gwe.view.MonthUsageChartView;
 import nl.gwe.view.MonthUsageTableView;
@@ -24,7 +24,7 @@ public class RootController implements Initializable {
 	private final MeasurementTableView measurementTableView;
 	private final MonthUsageTableView monthUsageTableView;
 	private final MonthUsageChartView monthUsageChartView;
-	private final ChartControlPanel chartControlPanel;
+	private final ChartControlPanelView chartControlPanel;
 	
 	
 	@FXML
@@ -34,7 +34,7 @@ public class RootController implements Initializable {
 			MeasurementTableView measurementTableView, 
 			MonthUsageChartView monthUsageChartView,
 			MonthUsageTableView monthUsageTableView,
-			ChartControlPanel chartControlPanel) {
+			ChartControlPanelView chartControlPanel) {
 		this.fxWeaver = fxWeaver;
 		this.measurementTableView = measurementTableView;
 		this.monthUsageChartView = monthUsageChartView;

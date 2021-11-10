@@ -21,7 +21,7 @@ public class MonthUsageChartView {
 
 	private Meters meter = Meters.GAS_PURCHASED;
 
-	private List<Integer> years;
+	private List<Integer> selectedYears;
 
 	LineChart<Number, Number> lineChart;
 	NumberAxis xAxis;
@@ -34,41 +34,29 @@ public class MonthUsageChartView {
 	public MonthUsageChartView(MonthUsageChartData monthUsageChartData) {
 		this.monthUsageChartData = monthUsageChartData;
 
-		years = new ArrayList<>();
+		selectedYears = new ArrayList<>();
 
 		xAxis = new NumberAxis(0, 13, 1);
 		xAxis.setLabel("Maanden");
 		xAxis.setTickLabelFormatter(c);
 
 		yAxis = new NumberAxis();
-
-		// For now hardcode years
-//		years.add(2014);
-		years.add(2015);
-		years.add(2016);
-		years.add(2017);
-		years.add(2018);
-		years.add(2019);
-		years.add(2020);
-		years.add(2021);
-
 	}
 
 	public void setMeter(Meters meter) {
 		this.meter = meter;
 		createChartData();
 	}
-
-	public void addYear(Integer year) {
-		years.add(year);
-		updateChartData();
+	
+	public List<Integer> getAvailableYears() {
+		return monthUsageChartData.getYears();
 	}
 
-	public void removeYear(Integer year) {
-		if (years.remove(year)) {
-			updateChartData();
-		}
+	public void setYears(List<Integer> years) {
+		selectedYears = years;
+		createChartData();
 	}
+
 	
 	public LineChart<Number, Number> getMonthUsageChartView() {
 		createChartData();
@@ -80,7 +68,7 @@ public class MonthUsageChartView {
 		yAxis.setLabel(meter.nlName() + " " + meter.unit());
 		lineChart.setTitle(meter.nlName());
 		
-		for (Integer year : years) {
+		for (Integer year : selectedYears) {
 			XYChart.Series<Number, Number> series = getYearSeries(year);
 			lineChart.getData().add(series);
 		}
