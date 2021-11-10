@@ -42,7 +42,13 @@ public class MonthUsageChartView {
 
 		yAxis = new NumberAxis();
 
-		// For now one test year
+		// For now hardcode years
+//		years.add(2014);
+		years.add(2015);
+		years.add(2016);
+		years.add(2017);
+		years.add(2018);
+		years.add(2019);
 		years.add(2020);
 		years.add(2021);
 

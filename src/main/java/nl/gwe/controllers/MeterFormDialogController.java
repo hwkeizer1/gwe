@@ -88,12 +88,19 @@ public class MeterFormDialogController {
 	public void okButtonAction() {
 		MeterValues meterReading = new MeterValues.Builder()
 				.setLowElectricityPurchased(Float.parseFloat(lowElectricityPurchasedField.getText()))
-				.setLowElectricityDelivered(Float.parseFloat(lowElectricityDeliveredField.getText()))
 				.setHighElectricityPurchased(Float.parseFloat(highElectricityPurchasedField.getText()))
-				.setHighElectricityDelivered(Float.parseFloat(highElectricityDeliveredField.getText()))
 				.setGasPurchased(Float.parseFloat(gasPurchasedField.getText()))
 				.setWaterPurchased(Float.parseFloat(waterPurchasedField.getText()))
 				.build();
+		
+		// Optional fields
+		if (!lowElectricityDeliveredField.getText().isBlank()) {
+			meterReading.setLowElectricityDelivered(Float.parseFloat(lowElectricityDeliveredField.getText()));
+		}
+		if (!highElectricityDeliveredField.getText().isBlank()) {
+			meterReading.setHighElectricityDelivered(Float.parseFloat(highElectricityDeliveredField.getText()));
+		}
+		
 		measurementService.submit(dateField.getValue(), meterReading);
 		stage.close();
 	}
@@ -105,7 +112,7 @@ public class MeterFormDialogController {
 	
 	UnaryOperator<Change> electricityFilter = change -> {
 		String input = change.getControlNewText();
-		if (input.matches("([1-9][0-9]*)?")) {
+		if (input.matches("-?([1-9][0-9]*)?")) {
 			return change;
 		}
 		return null;
@@ -113,7 +120,7 @@ public class MeterFormDialogController {
 	
 	UnaryOperator<Change> gasAndWaterFilter = change -> {
 		String input = change.getControlNewText();
-		if (input.matches("([0-9]*)(\\.\\d{0,3})?")) {
+		if (input.matches("(-?[0-9]*)(\\.\\d{0,3})?")) {
 			return change;
 		}
 		return null;
