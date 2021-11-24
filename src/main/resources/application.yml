@@ -1,0 +1,14 @@
+### Spring DATA SOURCE Configurations
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/gwe?useSSL=false
+    username: gwe_user
+    password: Testen01!
+  jpa:
+    hibernate.ddl-auto: update
+   
+### Logging
+logging:
+  level:
+    '[nl.gwe]':  DEBUG
