@@ -2,10 +2,8 @@ package nl.gwe.datalists;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
@@ -15,7 +13,6 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
 import nl.gwe.domain.Measurement;
-import nl.gwe.domain.MonthUsage;
 import nl.gwe.repositories.MeasurementRepository;
 
 @Slf4j
