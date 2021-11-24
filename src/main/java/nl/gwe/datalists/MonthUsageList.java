@@ -73,7 +73,6 @@ public class MonthUsageList  {
 	
 
 	public void add(MonthUsage monthUsage) {
-		log.debug("Saved NewMonthUsage: {}", monthUsage);
 		observableMonthUsageList.add(monthUsage);
 		monthUsageRepository.saveAll(observableMonthUsageList);
 	}

@@ -61,7 +61,6 @@ public class ChartControlPanelView {
 	
 	private void setMeter(ActionEvent actionEvent) {
 		Toggle toggle = meterGroup.getSelectedToggle();
-		log.debug("TOGGLE: {}", toggle);
 		monthUsageChartView.setMeter((Meters)toggle.getUserData());
 		
 		// Tricky way to trigger root controller to update the graphical view!
