@@ -2,7 +2,6 @@ package nl.gwe.services;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -12,20 +11,15 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import lombok.extern.slf4j.Slf4j;
 import nl.gwe.datalists.MeasurementList;
 import nl.gwe.datalists.MonthUsageList;
 import nl.gwe.domain.Measurement;
 import nl.gwe.domain.MeterValues;
-import nl.gwe.domain.MonthUsage;
-import nl.gwe.repositories.MeasurementRepository;
-import nl.gwe.repositories.MonthUsageRepository;
 import nl.gwe.util.TestData;
 
 @Slf4j

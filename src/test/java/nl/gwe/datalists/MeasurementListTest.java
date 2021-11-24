@@ -1,7 +1,6 @@
 package nl.gwe.datalists;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -12,11 +11,9 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javafx.collections.FXCollections;
 import lombok.extern.slf4j.Slf4j;

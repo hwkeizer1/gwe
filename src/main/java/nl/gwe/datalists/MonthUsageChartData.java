@@ -9,7 +9,6 @@ import java.util.TreeMap;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.gwe.domain.MeterValues;
 import nl.gwe.domain.MonthUsage;
 
 @Slf4j

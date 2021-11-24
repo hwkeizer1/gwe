@@ -1,8 +1,6 @@
 package nl.gwe.domain;
 
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
