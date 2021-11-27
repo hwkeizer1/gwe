@@ -1,0 +1,13 @@
+### Spring DATA SOURCE Configurations
+spring:
+  datasource:
+    url: jdbc:sqlite:gwe_db.db
+  jpa:
+    database-platform: org.sqlite.hibernate.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: update
+   
+### Logging
+logging:
+  level:
+    '[nl.gwe]':  DEBUG

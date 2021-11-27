@@ -5,13 +5,8 @@ import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
-import javafx.util.Callback;
 import lombok.extern.slf4j.Slf4j;
 import nl.gwe.datalists.Meters;
 import nl.gwe.domain.Measurement;
