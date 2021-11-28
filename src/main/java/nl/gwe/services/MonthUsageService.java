@@ -40,7 +40,7 @@ public class MonthUsageService implements ListChangeListener<Measurement> {
 		Optional<LocalDate> lastMeasurementDate = measurementList.getLastMeasurementDate();
 		Optional<YearMonth> lastMonthUsageYearMonth = getLastMonthUsageYearMonth();
 		while (lastMeasurementDate.isPresent() && lastMonthUsageYearMonth.isPresent()
-				&& lastMonthUsageYearMonth.get().atEndOfMonth().plusMonths(1).isBefore(lastMeasurementDate.get())) {
+				&& lastMonthUsageYearMonth.get().plusMonths(1).atEndOfMonth().isBefore(lastMeasurementDate.get())) {
 			monthUsageList.add(calculateNewMonthUsage(lastMonthUsageYearMonth.get()));
 			lastMonthUsageYearMonth = getLastMonthUsageYearMonth();
 		}
