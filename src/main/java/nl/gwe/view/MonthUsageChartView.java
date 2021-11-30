@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import javafx.collections.ObservableList;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -46,10 +47,6 @@ public class MonthUsageChartView {
 	public void setMeter(Meters meter) {
 		this.meter = meter;
 		createChartData();
-	}
-	
-	public List<Integer> getAvailableYears() {
-		return monthUsageChartData.getYears();
 	}
 
 	public void setYears(List<Integer> years) {

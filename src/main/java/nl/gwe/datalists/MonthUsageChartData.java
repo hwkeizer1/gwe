@@ -8,6 +8,7 @@ import java.util.TreeMap;
 
 import org.springframework.stereotype.Component;
 
+import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
 import nl.gwe.domain.MonthUsage;
 
@@ -57,11 +58,6 @@ public class MonthUsageChartData {
 		
 		return meterData;
 	}
-	
-	public List<Integer> getYears() {
-		return monthUsageList.getYears();
-	}
-	
 	
 	/**
 	 * Map each monthUsage to the correct month index

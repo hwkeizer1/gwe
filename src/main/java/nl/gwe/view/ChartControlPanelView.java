@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.RadioButton;
@@ -20,14 +22,18 @@ import javafx.scene.paint.Color;
 import lombok.extern.slf4j.Slf4j;
 import nl.gwe.controllers.RootController;
 import nl.gwe.datalists.Meters;
+import nl.gwe.datalists.MonthUsageList;
+import nl.gwe.domain.Measurement;
 
 @Slf4j
 @Component
-public class ChartControlPanelView {
+public class ChartControlPanelView implements ListChangeListener<Integer> {
 	
 	private final MonthUsageChartView monthUsageChartView;
+	private final MonthUsageList monthUsageList;
 	
 	private RootController root;
+	private List<Integer> years;
 
 	GridPane chartControlPanel;
 	ToggleGroup meterGroup;
@@ -41,8 +47,11 @@ public class ChartControlPanelView {
 	
 	List<RadioButton> yearRadioButtons;
 
-	public ChartControlPanelView(MonthUsageChartView monthUsageChartView) {
+	public ChartControlPanelView(MonthUsageChartView monthUsageChartView, MonthUsageList monthUsageList) {
 		this.monthUsageChartView = monthUsageChartView;
+		this.monthUsageList = monthUsageList;
+		years = monthUsageList.getReadOnlyYearList();
+		monthUsageList.addListener(this);
 		meterGroup = new ToggleGroup();
 		chartControlPanel = new GridPane();
 		chartControlPanel.setBackground(new Background(new BackgroundFill(Color.NAVAJOWHITE, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -52,6 +61,21 @@ public class ChartControlPanelView {
         chartControlPanel.add(createMeterToggleGroupBox(), 0, 0);
         chartControlPanel.add(createYearGroupBox(), 10, 0);
 //        chartControlPanel.setGridLinesVisible(true);
+	}
+	
+	@Override
+	public void onChanged(Change<? extends Integer> c) {
+		years = monthUsageList.getReadOnlyYearList();
+		chartControlPanel.getChildren().remove(1);
+		chartControlPanel.add(createYearGroupBox(), 10, 0);
+		
+		List<Integer> selectedYears = new ArrayList<>();
+		for (RadioButton yearButton : yearRadioButtons) {
+			if (yearButton.isSelected()) {
+				selectedYears.add((Integer)yearButton.getUserData());
+			}
+		}
+		monthUsageChartView.setYears(selectedYears);
 	}
 	
 	public GridPane getPanel(RootController root) {
@@ -70,14 +94,14 @@ public class ChartControlPanelView {
 	}
 
 	private void setYear(ActionEvent actionEvent) {
-		List<Integer> years = new ArrayList<>();
+		List<Integer> selectedYears = new ArrayList<>();
 		for (RadioButton yearButton : yearRadioButtons) {
 			if (yearButton.isSelected()) {
-				years.add((Integer)yearButton.getUserData());
+				selectedYears.add((Integer)yearButton.getUserData());
 			}
 		}
 
-		monthUsageChartView.setYears(years);
+		monthUsageChartView.setYears(selectedYears);
 		// Tricky way to trigger root controller to update the graphical view!
 		if (root != null) {
 			root.showGraphicalView(actionEvent);
@@ -134,7 +158,6 @@ public class ChartControlPanelView {
 	}
 	
 	private HBox createYearGroupBox() {
-		List<Integer> years = monthUsageChartView.getAvailableYears();
 		VBox vbox = new VBox();
 		vbox.setSpacing(10);
 		HBox hbox = new HBox();
@@ -161,4 +184,5 @@ public class ChartControlPanelView {
 		}
 		return hbox;
 	}
+
 }

@@ -22,14 +22,20 @@ public class MonthUsageList  {
 	private final MonthUsageRepository monthUsageRepository;
 
 	private ObservableList<MonthUsage> observableMonthUsageList;
+	private ObservableList<Integer> observableYearList;
 
 	public MonthUsageList(MonthUsageRepository monthUsageRepository) {
 		this.monthUsageRepository = monthUsageRepository;
 		this.observableMonthUsageList = FXCollections.observableList(monthUsageRepository.findAll());
+		this.observableYearList = FXCollections.observableList(getYears());
 	}
 	
 	public ObservableList<MonthUsage> getReadOnlyMonthUsageList() {
 		return FXCollections.unmodifiableObservableList(observableMonthUsageList);
+	}
+	
+	public List<Integer> getReadOnlyYearList() {
+		return FXCollections.unmodifiableObservableList(observableYearList);
 	}
 	
 	public Optional<YearMonth> getFirstMonthUsageYearMonth() {
@@ -58,7 +64,7 @@ public class MonthUsageList  {
 				.filter(m -> m.getDate().getYear() == year).collect(Collectors.toList());
 	}
 	
-	public List<Integer> getYears() {
+	private List<Integer> getYears() {
 		List<Integer> years = new ArrayList<>();
 		if (getFirstMonthUsageYearMonth().isPresent() && getLastMonthUsageYearMonth().isPresent()) {
 			Integer startYear = getFirstMonthUsageYearMonth().get().getYear();
@@ -74,15 +80,19 @@ public class MonthUsageList  {
 
 	public void add(MonthUsage monthUsage) {
 		observableMonthUsageList.add(monthUsage);
+		if (!observableYearList.contains(monthUsage.getDate().getYear())) {
+			observableYearList.add(monthUsage.getDate().getYear());
+		}
 		monthUsageRepository.saveAll(observableMonthUsageList);
 	}
 	
-	public void addListener(ListChangeListener<MonthUsage> listener) {
-		observableMonthUsageList.addListener(listener);
+	public void addListener(ListChangeListener<Integer> listener) {
+		observableYearList.addListener(listener);
 	}
 	
-	public void removeChangeListener(ListChangeListener<MonthUsage> listener) {
-		observableMonthUsageList.removeListener(listener);
+
+	public void removeChangeListener(ListChangeListener<Integer> listener) {
+		observableYearList.removeListener(listener);
 	}
 	
 	/*
