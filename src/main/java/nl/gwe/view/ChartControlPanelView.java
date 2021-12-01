@@ -33,7 +33,6 @@ public class ChartControlPanelView implements ListChangeListener<Integer> {
 	private final MonthUsageList monthUsageList;
 	
 	private RootController root;
-	private List<Integer> years;
 
 	GridPane chartControlPanel;
 	ToggleGroup meterGroup;
@@ -50,7 +49,6 @@ public class ChartControlPanelView implements ListChangeListener<Integer> {
 	public ChartControlPanelView(MonthUsageChartView monthUsageChartView, MonthUsageList monthUsageList) {
 		this.monthUsageChartView = monthUsageChartView;
 		this.monthUsageList = monthUsageList;
-		years = monthUsageList.getReadOnlyYearList();
 		monthUsageList.addListener(this);
 		meterGroup = new ToggleGroup();
 		chartControlPanel = new GridPane();
@@ -59,23 +57,19 @@ public class ChartControlPanelView implements ListChangeListener<Integer> {
 		chartControlPanel.setHgap(5);
 		chartControlPanel.setVgap(5);
         chartControlPanel.add(createMeterToggleGroupBox(), 0, 0);
-        chartControlPanel.add(createYearGroupBox(), 10, 0);
+        chartControlPanel.add(createYearGroupBox(monthUsageList.getReadOnlyYearList()), 10, 0);
 //        chartControlPanel.setGridLinesVisible(true);
 	}
 	
 	@Override
 	public void onChanged(Change<? extends Integer> c) {
-		years = monthUsageList.getReadOnlyYearList();
-		chartControlPanel.getChildren().remove(1);
-		chartControlPanel.add(createYearGroupBox(), 10, 0);
+		List<Integer> savedSelectedYears = getSelectedYears();
 		
-		List<Integer> selectedYears = new ArrayList<>();
-		for (RadioButton yearButton : yearRadioButtons) {
-			if (yearButton.isSelected()) {
-				selectedYears.add((Integer)yearButton.getUserData());
-			}
-		}
-		monthUsageChartView.setYears(selectedYears);
+		chartControlPanel.getChildren().remove(1);
+		chartControlPanel.add(createYearGroupBox(monthUsageList.getReadOnlyYearList()), 10, 0);
+		
+		setSelectedYears(savedSelectedYears);
+		monthUsageChartView.setYears(savedSelectedYears);
 	}
 	
 	public GridPane getPanel(RootController root) {
@@ -86,7 +80,6 @@ public class ChartControlPanelView implements ListChangeListener<Integer> {
 	private void setMeter(ActionEvent actionEvent) {
 		Toggle toggle = meterGroup.getSelectedToggle();
 		monthUsageChartView.setMeter((Meters)toggle.getUserData());
-		
 		// Tricky way to trigger root controller to update the graphical view!
 		if (root != null) {
 			root.showGraphicalView(actionEvent);
@@ -94,17 +87,28 @@ public class ChartControlPanelView implements ListChangeListener<Integer> {
 	}
 
 	private void setYear(ActionEvent actionEvent) {
+		monthUsageChartView.setYears(getSelectedYears());
+		// Tricky way to trigger root controller to update the graphical view!
+		if (root != null) {
+			root.showGraphicalView(actionEvent);
+		}
+	}
+	
+	private List<Integer> getSelectedYears() {
 		List<Integer> selectedYears = new ArrayList<>();
 		for (RadioButton yearButton : yearRadioButtons) {
 			if (yearButton.isSelected()) {
 				selectedYears.add((Integer)yearButton.getUserData());
 			}
 		}
-
-		monthUsageChartView.setYears(selectedYears);
-		// Tricky way to trigger root controller to update the graphical view!
-		if (root != null) {
-			root.showGraphicalView(actionEvent);
+		return selectedYears;
+	}
+	
+	private void setSelectedYears(List<Integer> selectedYears) {
+		for (RadioButton yearButton : yearRadioButtons) {
+			if (selectedYears.contains((Integer)yearButton.getUserData())) {
+				yearButton.setSelected(true);
+			}
 		}
 	}
 
@@ -157,14 +161,14 @@ public class ChartControlPanelView implements ListChangeListener<Integer> {
 		return hbox;
 	}
 	
-	private HBox createYearGroupBox() {
+	private HBox createYearGroupBox(List<Integer> availableYears) {
 		VBox vbox = new VBox();
 		vbox.setSpacing(10);
 		HBox hbox = new HBox();
 		hbox.setSpacing(30);
 		yearRadioButtons = new ArrayList<>();
 		int columnCount = 0;
-		for (Integer year : years) {
+		for (Integer year : availableYears) {
 			if ((columnCount % 5) == 0) {
 				if (!vbox.getChildren().isEmpty()) {
 					hbox.getChildren().add(vbox);

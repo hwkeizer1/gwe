@@ -25,7 +25,7 @@ public class MeasurementList {
 
 	public MeasurementList(MeasurementRepository measurementRepository) {
 		this.measurementRepository = measurementRepository;
-		this.observableMeasurementList = FXCollections.observableList(measurementRepository.findAll());
+		observableMeasurementList = FXCollections.observableList(this.measurementRepository.findAll());
 	}
 	
 	public ObservableList<Measurement> getReadOnlyMeasurementList() {
