@@ -22,30 +22,30 @@ public class MonthUsageChartData {
 		this.monthUsageList = monthUsageList;
 	}
 
-	public EnumMap<Meters, List<ChartData>> getChartDataForYear(Integer year) {
+	public EnumMap<Meters, List<MonthChartData>> getMonthUsageChartDataForYear(Integer year) {
 		Map<Integer, MonthUsage> monthUsages = getMonthUsagesDataForYear(year);
-		EnumMap<Meters, List<ChartData>> meterData = new EnumMap<>(Meters.class);
+		EnumMap<Meters, List<MonthChartData>> meterData = new EnumMap<>(Meters.class);
 		
-		List<ChartData> lowElectricityPurchased = new ArrayList<>();
-		List<ChartData> lowElectricityDelivered = new ArrayList<>();
-		List<ChartData> highElectricityPurchased = new ArrayList<>();
-		List<ChartData> highElectricityDelivered = new ArrayList<>();
-		List<ChartData> totalElectricity = new ArrayList<>();
-		List<ChartData> gasPurchased = new ArrayList<>();
-		List<ChartData> waterPurchased = new ArrayList<>();
+		List<MonthChartData> lowElectricityPurchased = new ArrayList<>();
+		List<MonthChartData> lowElectricityDelivered = new ArrayList<>();
+		List<MonthChartData> highElectricityPurchased = new ArrayList<>();
+		List<MonthChartData> highElectricityDelivered = new ArrayList<>();
+		List<MonthChartData> totalElectricity = new ArrayList<>();
+		List<MonthChartData> gasPurchased = new ArrayList<>();
+		List<MonthChartData> waterPurchased = new ArrayList<>();
 		
 		for (Map.Entry<Integer, MonthUsage> entry : monthUsages.entrySet()) {
-			lowElectricityPurchased.add(new ChartData(entry.getKey(), entry.getValue().getUsages().getLowElectricityPurchased()));
-			lowElectricityDelivered.add(new ChartData(entry.getKey(), entry.getValue().getUsages().getLowElectricityDelivered()));
-			highElectricityPurchased.add(new ChartData(entry.getKey(), entry.getValue().getUsages().getHighElectricityPurchased()));
-			highElectricityDelivered.add(new ChartData(entry.getKey(), entry.getValue().getUsages().getHighElectricityDelivered()));
-			totalElectricity.add(new ChartData(entry.getKey(),
+			lowElectricityPurchased.add(new MonthChartData(entry.getKey(), entry.getValue().getUsages().getLowElectricityPurchased()));
+			lowElectricityDelivered.add(new MonthChartData(entry.getKey(), entry.getValue().getUsages().getLowElectricityDelivered()));
+			highElectricityPurchased.add(new MonthChartData(entry.getKey(), entry.getValue().getUsages().getHighElectricityPurchased()));
+			highElectricityDelivered.add(new MonthChartData(entry.getKey(), entry.getValue().getUsages().getHighElectricityDelivered()));
+			totalElectricity.add(new MonthChartData(entry.getKey(),
 					entry.getValue().getUsages().getLowElectricityPurchased() - 
 					entry.getValue().getUsages().getLowElectricityDelivered() +
 					entry.getValue().getUsages().getHighElectricityPurchased() -
 					entry.getValue().getUsages().getHighElectricityDelivered()));
-			gasPurchased.add(new ChartData(entry.getKey(), entry.getValue().getUsages().getGasPurchased()));
-			waterPurchased.add(new ChartData(entry.getKey(), entry.getValue().getUsages().getWaterPurchased()));
+			gasPurchased.add(new MonthChartData(entry.getKey(), entry.getValue().getUsages().getGasPurchased()));
+			waterPurchased.add(new MonthChartData(entry.getKey(), entry.getValue().getUsages().getWaterPurchased()));
 		}
 		
 		meterData.put(Meters.LOW_ELECTRICITY_PURCHASED, lowElectricityPurchased);

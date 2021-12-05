@@ -30,9 +30,11 @@ import nl.gwe.domain.Measurement;
 public class ChartControlPanelView implements ListChangeListener<Integer> {
 	
 	private final MonthUsageChartView monthUsageChartView;
+	private final YearUsageChartView yearUsageChartView;
 	private final MonthUsageList monthUsageList;
 	
 	private RootController root;
+	private String activeView;
 
 	GridPane chartControlPanel;
 	ToggleGroup meterGroup;
@@ -46,8 +48,9 @@ public class ChartControlPanelView implements ListChangeListener<Integer> {
 	
 	List<RadioButton> yearRadioButtons;
 
-	public ChartControlPanelView(MonthUsageChartView monthUsageChartView, MonthUsageList monthUsageList) {
+	public ChartControlPanelView(MonthUsageChartView monthUsageChartView, YearUsageChartView yearUsageChartView, MonthUsageList monthUsageList) {
 		this.monthUsageChartView = monthUsageChartView;
+		this.yearUsageChartView = yearUsageChartView;
 		this.monthUsageList = monthUsageList;
 		monthUsageList.addListener(this);
 		meterGroup = new ToggleGroup();
@@ -72,7 +75,8 @@ public class ChartControlPanelView implements ListChangeListener<Integer> {
 		monthUsageChartView.setYears(savedSelectedYears);
 	}
 	
-	public GridPane getPanel(RootController root) {
+	public GridPane getPanel(RootController root, String activeView) {
+		this.activeView = activeView;
 		this.root = root;
 		return chartControlPanel;
 	}
@@ -80,17 +84,29 @@ public class ChartControlPanelView implements ListChangeListener<Integer> {
 	private void setMeter(ActionEvent actionEvent) {
 		Toggle toggle = meterGroup.getSelectedToggle();
 		monthUsageChartView.setMeter((Meters)toggle.getUserData());
+		yearUsageChartView.setMeter((Meters)toggle.getUserData());
 		// Tricky way to trigger root controller to update the graphical view!
 		if (root != null) {
-			root.showGraphicalView(actionEvent);
+			if (activeView.equals("month")) {
+				root.showMonthGraphicalView(actionEvent);
+			}
+			if (activeView.equals("year")) {
+				root.showYearGraphicalView(actionEvent);
+			}
 		}
 	}
 
 	private void setYear(ActionEvent actionEvent) {
 		monthUsageChartView.setYears(getSelectedYears());
+		yearUsageChartView.setYears(getSelectedYears());
 		// Tricky way to trigger root controller to update the graphical view!
 		if (root != null) {
-			root.showGraphicalView(actionEvent);
+			if (activeView.equals("month")) {
+				root.showMonthGraphicalView(actionEvent);
+			}
+			if (activeView.equals("year")) {
+				root.showYearGraphicalView(actionEvent);
+			}
 		}
 	}
 	

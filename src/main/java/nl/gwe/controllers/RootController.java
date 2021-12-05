@@ -32,6 +32,7 @@ import nl.gwe.view.ChartControlPanelView;
 import nl.gwe.view.MeasurementTableView;
 import nl.gwe.view.MonthUsageChartView;
 import nl.gwe.view.MonthUsageTableView;
+import nl.gwe.view.YearUsageChartView;
 
 @Slf4j
 @Controller
@@ -42,6 +43,7 @@ public class RootController implements Initializable {
 	private final MeasurementTableView measurementTableView;
 	private final MonthUsageTableView monthUsageTableView;
 	private final MonthUsageChartView monthUsageChartView;
+	private final YearUsageChartView yearUsageChartView;
 	private final ChartControlPanelView chartControlPanel;
 	
 	private final MeasurementService measurementService;
@@ -53,12 +55,14 @@ public class RootController implements Initializable {
 	public RootController(FxWeaver fxWeaver, 
 			MeasurementTableView measurementTableView, 
 			MonthUsageChartView monthUsageChartView,
+			YearUsageChartView yearUsageChartView,
 			MonthUsageTableView monthUsageTableView,
 			ChartControlPanelView chartControlPanel,
 			MeasurementService measurementService) {
 		this.fxWeaver = fxWeaver;
 		this.measurementTableView = measurementTableView;
 		this.monthUsageChartView = monthUsageChartView;
+		this.yearUsageChartView = yearUsageChartView;
 		this.monthUsageTableView = monthUsageTableView;
 		this.chartControlPanel = chartControlPanel;
 		this.measurementService = measurementService;
@@ -156,19 +160,27 @@ public class RootController implements Initializable {
 	}
 	
 	@FXML
-	public void showGraphicalView(ActionEvent actionEvent) {
+	public void showMonthGraphicalView(ActionEvent actionEvent) {
 		rootWindow.setCenter(monthUsageChartView.getMonthUsageChartView());
-		rootWindow.setBottom(chartControlPanel.getPanel(this));
+		rootWindow.setBottom(chartControlPanel.getPanel(this, "month"));
+	}
+	
+	@FXML
+	public void showYearGraphicalView(ActionEvent actionEvent) {
+		rootWindow.setCenter(yearUsageChartView.getYearUsageChartView());
+		rootWindow.setBottom(chartControlPanel.getPanel(this, "year"));
 	}
 	
 	@FXML
 	public void showMeasurementTableView(ActionEvent actionEvent) {
 		rootWindow.setCenter(measurementTableView.getTableView());
+		rootWindow.setBottom(null);
 	}
 	
 	@FXML
 	public void showMonthUsageTableView(ActionEvent actionEvent) {
 		rootWindow.setCenter(monthUsageTableView.getTableView());
+		rootWindow.setBottom(null);
 	}
 
 }

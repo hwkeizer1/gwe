@@ -67,12 +67,8 @@ public class MonthUsageService implements ListChangeListener<Measurement> {
 	
 	MeterValues addMeterValues(MeterValues mv1, MeterValues mv2) {
 		MeterValues result = new MeterValues();
-		result.setLowElectricityPurchased(mv1.getLowElectricityPurchased() + mv2.getLowElectricityPurchased());
-		result.setLowElectricityDelivered(mv1.getLowElectricityDelivered() + mv2.getLowElectricityDelivered());
-		result.setHighElectricityPurchased(mv1.getHighElectricityPurchased() + mv2.getHighElectricityPurchased());
-		result.setHighElectricityDelivered(mv1.getHighElectricityDelivered() + mv2.getHighElectricityDelivered());
-		result.setGasPurchased(mv1.getGasPurchased() + mv2.getGasPurchased());
-		result.setWaterPurchased(mv1.getWaterPurchased() + mv2.getWaterPurchased());
+		result.addMeterValues(mv1);
+		result.addMeterValues(mv2);
 		return result;
 	}
 	

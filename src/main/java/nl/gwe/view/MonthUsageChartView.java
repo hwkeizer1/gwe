@@ -12,7 +12,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import lombok.extern.slf4j.Slf4j;
 import nl.gwe.converters.IntegerToMonthConverter;
-import nl.gwe.datalists.ChartData;
+import nl.gwe.datalists.MonthChartData;
 import nl.gwe.datalists.Meters;
 import nl.gwe.datalists.MonthUsageChartData;
 
@@ -72,11 +72,11 @@ public class MonthUsageChartView {
 	}
 	
 	private XYChart.Series<Number, Number> getYearSeries(Integer year) {
-		EnumMap<Meters, List<ChartData>> meters = monthUsageChartData.getChartDataForYear(year);
+		EnumMap<Meters, List<MonthChartData>> meters = monthUsageChartData.getMonthUsageChartDataForYear(year);
 		XYChart.Series<Number, Number> series = new XYChart.Series<>();
 		series.setName(year.toString());
-		List<ChartData> chartData = meters.get(meter);
-		for (ChartData data : chartData) {
+		List<MonthChartData> chartData = meters.get(meter);
+		for (MonthChartData data : chartData) {
 			series.getData().add(new XYChart.Data<>(data.getMonth(), data.getValue()));
 		}
 

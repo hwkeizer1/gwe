@@ -1,5 +1,7 @@
 package nl.gwe.domain;
 
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,6 +38,15 @@ public class MeterValues {
 		this.highElectricityDelivered = builder.highElectricityDelivered;
 		this.gasPurchased = builder.gasPurchased;
 		this.waterPurchased = builder.waterPurchased;
+	}
+	
+	public void addMeterValues(MeterValues m2) {
+		this.lowElectricityPurchased += m2.getLowElectricityPurchased();
+		this.lowElectricityDelivered += m2.getLowElectricityDelivered();
+		this.highElectricityPurchased += m2.getHighElectricityPurchased();
+		this.highElectricityDelivered += m2.getHighElectricityDelivered();
+		this.gasPurchased += m2.getGasPurchased();
+		this.waterPurchased += m2.getWaterPurchased();
 	}
 	
 	public static class Builder {

@@ -1,12 +1,12 @@
 package nl.gwe.datalists;
 
-public class ChartData {
+public class MonthChartData {
 
 	private Integer month;
 	private Float value;
 	
 	
-	public ChartData(Integer month, Float value) {
+	public MonthChartData(Integer month, Float value) {
 		if (month >= 0 && month <= 13) {
 			this.month = month;
 			this.value = value;

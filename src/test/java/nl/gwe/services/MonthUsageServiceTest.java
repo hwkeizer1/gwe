@@ -20,6 +20,7 @@ import nl.gwe.datalists.MeasurementList;
 import nl.gwe.datalists.MonthUsageList;
 import nl.gwe.domain.Measurement;
 import nl.gwe.domain.MeterValues;
+import nl.gwe.domain.YearUsage;
 import nl.gwe.util.TestData;
 
 @Slf4j
